@@ -1,0 +1,12 @@
+<updates>
+<update>
+	<id>1</id>
+	<url>https://github.com/psieg/Lightpack/releases</url>
+	<title>Version 5.11.2.7 is available</title>
+	<text>* Fix API compatiblity
+* Improved layout for high dpi screens
+* Handling of standby
+* DDupl: no-access handling</text>
+	<softwareVersion>lt5.11.2.7</softwareVersion>
+</update>
+</updates>
