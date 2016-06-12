@@ -1,5 +1,16 @@
 <updates>
 <update>
+        <id>3</id>
+        <url>https://github.com/psieg/Lightpack/releases</url>
+        <title>Version 5.11.2.9 is available</title>
+        <text>* Windows: Add sound visualizer
+* Add custom distribution to wizard
+* Option to increase grab brightness
+* Fix a crash on multiple screens
+* Fix wizard finds no devices</text>
+        <softwareVersion>le5.11.2.9</softwareVersion>
+</update>
+<update>
 	<id>2</id>
 	<url>https://github.com/psieg/Lightpack/releases</url>
 	<title>Version 5.11.2.8 is available</title>
