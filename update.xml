@@ -1,5 +1,15 @@
 <updates>
 <update>
+        <id>4</id>
+        <url>https://github.com/psieg/Lightpack/releases</url>
+        <title>Version 5.11.2.10 is available</title>
+        <text>* Extend custom distribution
+* Fix UI/settings bugs
+* Fix white balance ignored by luminosity
+* Fix lights turning on themselves</text>
+        <softwareVersion>lt5.11.2.10</softwareVersion>
+</update>
+<update>
         <id>3</id>
         <url>https://github.com/psieg/Lightpack/releases</url>
         <title>Version 5.11.2.9 is available</title>
