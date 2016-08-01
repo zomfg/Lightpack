@@ -8,7 +8,7 @@ Conflicts: lightpack
 Replaces: lightpack
 Section: electronics
 Priority: optional
-Homepage: http://code.google.com/p/lightpack/
+Homepage: http://github.com/woodenshark/Lightpack
 Description: Content-driving ambient lighting system
  http://lightpack.tv
  .

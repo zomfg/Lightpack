@@ -2616,7 +2616,7 @@
            </size>
           </property>
           <property name="text">
-           <string>&lt;h2&gt;Prismatik (unofficial fork)&lt;/h2&gt;</string>
+           <string>&lt;h2&gt;Prismatik&lt;/h2&gt;</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2650,7 +2650,7 @@
            </size>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The &lt;span style=&quot; font-weight:600;&quot;&gt;Woodenshark&lt;/span&gt; team created this software with &lt;span style=&quot; font-weight:600;&quot;&gt;Lightpack&lt;/span&gt; — content-appropriate ambient lighting system with USB interface&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;This is an unofficial fork of the open source project that is not affiliated with Woodenshark or Lightpack&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The &lt;span style=&quot; font-weight:600;&quot;&gt;Woodenshark&lt;/span&gt; team created this software with &lt;span style=&quot; font-weight:600;&quot;&gt;Lightpack&lt;/span&gt; — content-appropriate ambient lighting system with USB interface&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="textFormat">
            <enum>Qt::RichText</enum>
@@ -2700,7 +2700,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string notr="true">&lt;a href=&quot;https://github.com/psieg/Lightpack&quot;&gt;github.com/psieg/Lightpack&lt;/a&gt; &lt;a href=&quot;http://lightpack.tv/&quot;&gt;lightpack.tv&lt;/a&gt;</string>
+           <string notr="true">&lt;a href=&quot;https://github.com/woodenshark/Lightpack&quot;&gt;github.com/woodenshark/Lightpack&lt;/a&gt; &lt;a href=&quot;http://lightpack.tv/&quot;&gt;lightpack.tv&lt;/a&gt;</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
