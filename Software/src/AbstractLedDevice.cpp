@@ -160,7 +160,7 @@ void AbstractLedDevice::setColors(const QList<QRgb> & colors) {
 		if (!m_softSmoothTimer) {
 			m_softSmoothTimer = new QTimer(this);
 			connect(m_softSmoothTimer, SIGNAL(timeout()), this, SLOT(softSmoothTimerTick()));
-			m_softSmoothTimer->setInterval(20);
+			m_softSmoothTimer->setInterval(5);
 		}
 		if (!m_softSmoothTimer->isActive()) {
 			m_softSmoothTimer->start();
@@ -180,7 +180,7 @@ void AbstractLedDevice::softSmoothTimerTick() {
 
 	setColorsUnsmoothed(m_colorsSaved);
 
-	if (m_softSmoothIndex == m_softSmoothSteps) {
+	if (m_softSmoothIndex >= m_softSmoothSteps) {
 		m_softSmoothTimer->stop();
 	}
 	m_softSmoothIndex++;
