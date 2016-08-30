@@ -23,4 +23,4 @@ script:
   - make
   - macdeployqt bin/Prismatik.app -dmg
   - ls bin
-  - curl -T bin/Prismatik.dmg "https://psieg.de/lightpack/osx_builds/Prismatik_${VERSION}_${TRAVIS_BUILD_NUMBER}.dmg" -u "${PSIEG_UPLOAD_USER}:${PSIEG_UPLOAD_PASSWORD}"
+  - curl -T bin/Prismatik.dmg "https://psieg.de/lightpack/osx_builds_official/Prismatik_${VERSION}_${TRAVIS_BUILD_NUMBER}.dmg" -u "${PSIEG_UPLOAD_USER}:${PSIEG_UPLOAD_PASSWORD}"
