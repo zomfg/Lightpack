@@ -1536,7 +1536,6 @@ void SettingsWindow::initLanguages()
     ui->comboBox_Language->addItem(tr("System default"));
     ui->comboBox_Language->addItem("English");
     ui->comboBox_Language->addItem("Russian");
-    ui->comboBox_Language->addItem("Ukrainian");
 
     int langIndex = 0; // "System default"
     QString langSaved = Settings::getLanguage();
@@ -1570,7 +1569,6 @@ void SettingsWindow::loadTranslation(const QString & language)
     }
     else if (language == "English") locale = "en_EN"; // :/translations/en_EN.qm
     else if (language == "Russian") locale = "ru_RU"; // :/translations/ru_RU.qm
-    else if (language == "Ukrainian") locale = "uk_UA"; // :/translations/uk_UA.qm
     // append line for new language/locale here
     else {
         qWarning() << "Language" << language << "not found. Set to default" << SettingsScope::Main::LanguageDefault;

@@ -45,8 +45,7 @@ isEmpty( GIT_REVISION ){
     DEFINES += GIT_REVISION=\\\"$${GIT_REVISION}\\\"
 }
 
-TRANSLATIONS += ../res/translations/ru_RU.ts \
-       ../res/translations/uk_UA.ts
+TRANSLATIONS += ../res/translations/ru_RU.ts
 RESOURCES    = ../res/LightpackResources.qrc
 RC_FILE      = ../res/Lightpack.rc
 
