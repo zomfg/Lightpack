@@ -1,5 +1,14 @@
 <updates>
 <update>
+        <id>5</id>
+        <url>https://github.com/psieg/Lightpack/releases</url>
+        <title>Version 5.11.2.11 is available</title>
+        <text>* Extend custom distribution
+* Fix custom offset/rotation not saved 
+* Reinitialize device after resume</text>
+        <softwareVersion>lt5.11.2.11</softwareVersion>
+</update>
+<update>
         <id>4</id>
         <url>https://github.com/psieg/Lightpack/releases</url>
         <title>Version 5.11.2.10 is available</title>
