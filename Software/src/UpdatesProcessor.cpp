@@ -30,8 +30,7 @@
 #include "debug.h"
 #include "UpdatesProcessor.hpp"
 
-//#define UPDATE_CHECK_URL "https://psieg.de/lightpack/update.xml"
-#define UPDATE_CHECK_URL "https://psieg.github.io/Lightpack/update.xml"
+#define UPDATE_CHECK_URL "https://lightpack.tv/updates.xml"
 
 const AppVersion kCurVersion(VERSION_STR);
 
