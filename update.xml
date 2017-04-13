@@ -1,5 +1,15 @@
 <updates>
 <update>
+        <id>6</id>
+        <url>https://github.com/psieg/Lightpack/releases</url>
+        <title>Version 5.11.2.12 is available</title>
+        <text>* Color calibration page in wizard
+* Fix tray icon
+* macOS performance
+* API fix</text>
+        <softwareVersion>lt5.11.2.12</softwareVersion>
+</update>
+<update>
         <id>5</id>
         <url>https://github.com/psieg/Lightpack/releases</url>
         <title>Version 5.11.2.11 is available</title>
