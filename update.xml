@@ -2,8 +2,6 @@
 <update>
         <id>9</id>
         <url>https://github.com/psieg/Lightpack/releases</url>
-        <pkgUrl>https://github.com/psieg/Lightpack/releases/download/5.11.2.15/Prismatik.unofficial.64bit.Setup.5.11.2.15.exe</pkgUrl>
-        <sigUrl>https://github.com/psieg/Lightpack/releases/download/5.11.2.15/Prismatik.unofficial.64bit.Setup.5.11.2.15.exe.sig</sigUrl>
         <title>Version 5.11.2.15 is available</title>
         <text>* Automatically attempt to reconnect if the device is disconnected</text>
         <softwareVersion>lt5.11.2.15</softwareVersion>
