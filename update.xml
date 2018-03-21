@@ -1,15 +1,23 @@
 <updates>
 <update>
+        <id>9</id>
+        <url>https://github.com/psieg/Lightpack/releases</url>
+        <pkgUrl>https://github.com/psieg/Lightpack/releases/download/5.11.2.15/Prismatik.unofficial.64bit.Setup.5.11.2.15.exe</pkgUrl>
+        <sigUrl>https://github.com/psieg/Lightpack/releases/download/5.11.2.15/Prismatik.unofficial.64bit.Setup.5.11.2.15.exe.sig</sigUrl>
+        <title>Version 5.11.2.15 is available</title>
+        <text>* Automatically attempt to reconnect if the device is disconnected</text>
+        <softwareVersion>lt5.11.2.15</softwareVersion>
+</update>
+<update>
         <id>8</id>
         <url>https://github.com/psieg/Lightpack/releases</url>
         <title>Version 5.11.2.14 is available</title>
         <text>* Add automatic self-updater
 * Add API to persist last set colors
-* Automatically attempt to reconnect
 * Allow up to 512 LEDs for Adalight
+* Fix wizard sending too much data</text>
         <softwareVersion>lt5.11.2.14</softwareVersion>
 </update>
-
 <update>
         <id>7</id>
         <url>https://github.com/psieg/Lightpack/releases</url>
