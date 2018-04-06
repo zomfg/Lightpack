@@ -1,5 +1,17 @@
 <updates>
 <update>
+        <id>10</id>
+        <url>https://github.com/psieg/Lightpack/releases</url>
+		<pkgUrl>http://psieg.de/lightpack/pkg/Prismatik%20(unofficial)%2064bit%20Setup%205.11.2.16.exe</pkgUrl>
+		<sigUrl>http://psieg.de/lightpack/pkg/Prismatik%20(unofficial)%2064bit%20Setup%205.11.2.16.exe.sig</sigUrl>
+        <title>Version 5.11.2.16 is available</title>
+        <text>* Add higher baud rates
+* Fix f.lux flickering
+* Fix FPS counter
+* Tweaks to the Auto Updater</text>
+        <softwareVersion>lt5.11.2.16</softwareVersion>
+</update>
+<update>
         <id>9</id>
         <url>https://github.com/psieg/Lightpack/releases</url>
 		<pkgUrl>http://psieg.de/lightpack/pkg/Prismatik%20(unofficial)%2064bit%20Setup%205.11.2.15.exe</pkgUrl>
