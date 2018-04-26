@@ -1,5 +1,15 @@
 <updates>
 <update>
+        <id>11</id>
+        <url>https://github.com/psieg/Lightpack/releases</url>
+		<pkgUrl>https://github.com/psieg/Lightpack/releases/download/5.11.2.17/Prismatik.unofficial.64bit.Setup.5.11.2.17.exe</pkgUrl>
+		<sigUrl>https://github.com/psieg/Lightpack/releases/download/5.11.2.17/Prismatik.unofficial.64bit.Setup.5.11.2.17.exe.updater_signature</sigUrl>
+        <title>Version 5.11.2.17 is available</title>
+        <text>* Fix broken white balance in wizard
+* Fix stops working after switching display</text>
+        <softwareVersion>lt5.11.2.17</softwareVersion>
+</update>
+<update>
         <id>10</id>
         <url>https://github.com/psieg/Lightpack/releases</url>
 		<pkgUrl>http://psieg.de/lightpack/pkg/Prismatik%20(unofficial)%2064bit%20Setup%205.11.2.16.exe</pkgUrl>
