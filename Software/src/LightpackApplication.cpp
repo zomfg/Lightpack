@@ -699,7 +699,7 @@ void LightpackApplication::initGrabManager()
 	DEBUG_LOW_LEVEL << Q_FUNC_INFO;
 	m_grabManager = new GrabManager(NULL);
 
-	m_moodlampManager = new MoodLampManager(NULL);
+	m_moodlampManager = new MoodLampManager(m_applicationDirPath);
 	m_moodlampManager->initFromSettings();
 
 #ifdef SOUNDVIZ_SUPPORT
@@ -727,7 +727,7 @@ void LightpackApplication::initGrabManager()
 	connect(settings(), SIGNAL(moodLampColorChanged(QColor)),					m_moodlampManager,	SLOT(setCurrentColor(QColor)));
 	connect(settings(), SIGNAL(moodLampSpeedChanged(int)),						m_moodlampManager,	SLOT(setLiquidModeSpeed(int)));
 	connect(settings(), SIGNAL(moodLampLiquidModeChanged(bool)),				m_moodlampManager,	SLOT(setLiquidMode(bool)));
-	connect(settings(), SIGNAL(moodLampLampChanged(int)),						m_moodlampManager,	SLOT(setCurrentLamp(int)));
+	connect(settings(), SIGNAL(moodLampLampChanged(const QString&)),			m_moodlampManager,	SLOT(setCurrentLamp(const QString&)));
 	connect(settings(), SIGNAL(sendDataOnlyIfColorsChangesChanged(bool)),		m_moodlampManager,	SLOT(setSendDataOnlyIfColorsChanged(bool)));
 
 #ifdef SOUNDVIZ_SUPPORT
@@ -775,7 +775,7 @@ void LightpackApplication::initGrabManager()
 #endif
 
 		connect(m_settingsWindow, SIGNAL(requestMoodLampLamps()), m_moodlampManager, SLOT(requestLampList()));
-		connect(m_moodlampManager, SIGNAL(lampList(const QList<MoodLampLampInfo> &, int)), m_settingsWindow, SLOT(updateAvailableMoodLampLamps(const QList<MoodLampLampInfo> &, int)));
+		connect(m_moodlampManager, SIGNAL(lampList(const QList<MoodLampLampInfo> &)), m_settingsWindow, SLOT(updateAvailableMoodLampLamps(const QList<MoodLampLampInfo> &)));
 	}
 
 	connect(m_grabManager, SIGNAL(ambilightTimeOfUpdatingColors(double)), m_pluginInterface, SLOT(refreshAmbilightEvaluated(double)));

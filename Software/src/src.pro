@@ -279,7 +279,6 @@ SOURCES += \
     ApiServer.cpp \
     ApiServerSetColorTask.cpp \
     MoodLampManager.cpp \
-    MoodLamp.cpp \
 	LiquidColorGenerator.cpp \
     LedDeviceManager.cpp \
     SelectWidget.cpp \
@@ -335,7 +334,7 @@ HEADERS += \
     ../../CommonHeaders/COMMANDS.h \
     ../../CommonHeaders/USB_ID.h \
     MoodLampManager.hpp \
-    MoodLamp.hpp \
+    QColorMetaWrapper.hpp \
 	LiquidColorGenerator.hpp \
     LedDeviceManager.hpp \
     SelectWidget.hpp \

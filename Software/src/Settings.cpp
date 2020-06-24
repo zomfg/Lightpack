@@ -35,6 +35,7 @@
 #include <QDir>
 #include <QUuid>
 #include <QScreen>
+#include <QRegularExpression>
 #include "debug.h"
 
 #define MAIN_CONFIG_FILE_VERSION	"4.0"
@@ -1530,7 +1531,7 @@ QColor Settings::getMoodLampColor()
 void Settings::setMoodLampColor(QColor value)
 {
 	DEBUG_LOW_LEVEL << Q_FUNC_INFO << value.name();
-	setValue(Profile::Key::MoodLamp::Color, value.name() );
+	setValue(Profile::Key::MoodLamp::Color, value.name());
 	m_this->moodLampColorChanged(value);
 }
 
@@ -1547,13 +1548,14 @@ void Settings::setMoodLampSpeed(int value)
 	m_this->moodLampSpeedChanged(value);
 }
 
-int Settings::getMoodLampLamp()
+QString Settings::getMoodLampLamp()
 {
 	DEBUG_LOW_LEVEL << Q_FUNC_INFO;
-	return value(Profile::Key::MoodLamp::Lamp).toInt();
+	const QString& val = value(Profile::Key::MoodLamp::Lamp).toString();
+	return val.isEmpty() || val.contains(QRegularExpression("^\\d+$")) ? Profile::MoodLamp::LampDefault : val;
 }
 
-void Settings::setMoodLampLamp(int value)
+void Settings::setMoodLampLamp(const QString& value)
 {
 	DEBUG_LOW_LEVEL << Q_FUNC_INFO;
 	setValue(Profile::Key::MoodLamp::Lamp, value);

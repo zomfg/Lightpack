@@ -267,7 +267,7 @@ void SettingsWindow::connectSignalsSlots()
 #else
 	ui->pushButton_SoundVizDeviceHelp->hide();
 #endif // Q_OS_MACOS
-	
+
 #endif// SOUNDVIZ_SUPPORT
 	connect(ui->checkBox_ExpertModeEnabled, SIGNAL(toggled(bool)), this, SLOT(onExpertModeEnabled_Toggled(bool)));
 	connect(ui->checkBox_KeepLightsOnAfterExit, SIGNAL(toggled(bool)), this, SLOT(onKeepLightsAfterExit_Toggled(bool)));
@@ -986,18 +986,17 @@ void SettingsWindow::updateAvailableSoundVizVisualizers(const QList<SoundManager
 }
 #endif
 
-void SettingsWindow::updateAvailableMoodLampLamps(const QList<MoodLampLampInfo> & lamps, int recommended)
+void SettingsWindow::updateAvailableMoodLampLamps(const QList<MoodLampLampInfo> & lamps)
 {
 	ui->comboBox_MoodLampLamp->blockSignals(true);
 	ui->comboBox_MoodLampLamp->clear();
-	int selectedLamp = Settings::getMoodLampLamp();
-	if (selectedLamp == -1) selectedLamp = recommended;
+	QString selectedLamp = Settings::getMoodLampLamp();
 	int selectIndex = -1;
 	for (int i = 0; i < lamps.size(); i++) {
-		ui->comboBox_MoodLampLamp->addItem(lamps[i].name, lamps[i].id);
-		if (lamps[i].id == selectedLamp) {
+		ui->comboBox_MoodLampLamp->addItem(lamps[i].name, lamps[i].moduleName);
+
+		if (lamps[i].moduleName == selectedLamp)
 			selectIndex = i;
-		}
 	}
 	ui->comboBox_MoodLampLamp->setCurrentIndex(selectIndex);
 	ui->comboBox_MoodLampLamp->blockSignals(false);
@@ -1076,7 +1075,7 @@ void SettingsWindow::ledDeviceOpenSuccess(bool isSuccess)
 }
 
 void SettingsWindow::ledDeviceCallSuccess(bool isSuccess)
-{	
+{
 	DEBUG_HIGH_LEVEL << Q_FUNC_INFO << isSuccess << m_backlightStatus << sender();
 
 	// If Backlight::StatusOff then nothings changed
@@ -1135,7 +1134,7 @@ void SettingsWindow::ledDeviceFirmwareVersionUnofficialResult(const int version)
 }
 
 void SettingsWindow::refreshAmbilightEvaluated(double updateResultMs)
-{	
+{
 	DEBUG_HIGH_LEVEL << Q_FUNC_INFO << updateResultMs;
 
 	double hz = 0;
@@ -1161,7 +1160,7 @@ void SettingsWindow::refreshAmbilightEvaluated(double updateResultMs)
 		DEBUG_HIGH_LEVEL << Q_FUNC_INFO << "Therotical Max Hz for led count and baud rate:" << theoreticalMaxHz << ledCount << baudRate;
 		if (theoreticalMaxHz <= hz)
 			qWarning() << Q_FUNC_INFO << hz << "FPS went over theoretical max of" << theoreticalMaxHz;
-		
+
 		const QPalette& defaultPalette = ui->label_GrabFrequency_txt_fps->palette();
 
 		QPalette palette = ui->label_GrabFrequency_value->palette();
@@ -1440,8 +1439,8 @@ void SettingsWindow::onMoodLampSpeed_valueChanged(int value)
 void SettingsWindow::onMoodLampLamp_currentIndexChanged(int index)
 {
 	if (!updatingFromSettings) {
-		DEBUG_MID_LEVEL << Q_FUNC_INFO << index << ui->comboBox_MoodLampLamp->currentData().toInt();
-		Settings::setMoodLampLamp(ui->comboBox_MoodLampLamp->currentData().toInt());
+		DEBUG_MID_LEVEL << Q_FUNC_INFO << index << ui->comboBox_MoodLampLamp->currentData().toString();
+		Settings::setMoodLampLamp(ui->comboBox_MoodLampLamp->currentData().toString());
 	}
 }
 
@@ -1850,7 +1849,7 @@ void SettingsWindow::updateUiFromSettings()
 	onLightpackModeChanged(mode);
 
 	ui->checkBox_ExpertModeEnabled->setChecked						(Settings::isExpertModeEnabled());
-	
+
 	ui->checkBox_checkForUpdates->setChecked							(Settings::isCheckForUpdatesEnabled());
 	ui->checkBox_installUpdates->setChecked							(Settings::isInstallUpdatesEnabled());
 
@@ -1877,12 +1876,12 @@ void SettingsWindow::updateUiFromSettings()
 	ui->radioButton_LuminosityDeadZone->setChecked					(!Settings::isMinimumLuminosityEnabled());
 
 	// Check the selected moodlamp mode (setChecked(false) not working to select another)
-	ui->radioButton_ConstantColorMoodLampMode->setChecked			(!Settings::isMoodLampLiquidMode());
+	ui->radioButton_BaseColorMoodLamp->setChecked			(!Settings::isMoodLampLiquidMode());
 	ui->radioButton_LiquidColorMoodLampMode->setChecked				(Settings::isMoodLampLiquidMode());
 	ui->pushButton_SelectColorMoodLamp->setColor						(Settings::getMoodLampColor());
 	ui->horizontalSlider_MoodLampSpeed->setValue						(Settings::getMoodLampSpeed());
 	for (int i = 0; i < ui->comboBox_MoodLampLamp->count(); i++) {
-		if (ui->comboBox_MoodLampLamp->itemData(i).toInt() == Settings::getMoodLampLamp()) {
+		if (ui->comboBox_MoodLampLamp->itemData(i).toString() == Settings::getMoodLampLamp()) {
 			ui->comboBox_MoodLampLamp->setCurrentIndex(i);
 			break;
 		}

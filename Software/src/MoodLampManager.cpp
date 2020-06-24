@@ -27,24 +27,62 @@
 #include "MoodLampManager.hpp"
 #include "PrismatikMath.hpp"
 #include "Settings.hpp"
+#include "QColorMetaWrapper.hpp"
 #include <QTime>
-#include "MoodLamp.hpp"
+#include <QJSEngine>
+#include <QDir>
+#include <QRegularExpression>
 
 using namespace SettingsScope;
 
-MoodLampManager::MoodLampManager(QObject *parent) : QObject(parent)
+MoodLampManager::MoodLampManager(const QString& appDir, QObject *parent) : QObject(parent)
 {
 	m_isMoodLampEnabled = false;
 
 	m_timer.setTimerType(Qt::PreciseTimer);
+	m_jsEngine.setParent(this);
+	m_jsEngine.globalObject().setProperty("QColor", m_jsEngine.newQMetaObject<QColorMetaWrapper>());
+
+	const QDir lampDir(appDir + "/Scripts/moodlamps", "*.mjs", QDir::IgnoreCase | QDir::Name, QDir::Files);
+	const QRegularExpression cleanNameFilter("^[a-z0-9_]+\\.mjs$");
+	const QStringList& lampScriptList = lampDir.entryList().filter(cleanNameFilter);
+	bool enableConsole = false;
+	for (const QString& lampScript : lampScriptList) {
+		const QJSValue& jsModule = m_jsEngine.importModule(lampDir.filePath(lampScript));
+		if (jsModule.isError()) {
+			qWarning() << Q_FUNC_INFO << lampScript << QString("JS Error in %1:%2 %3")
+				.arg(jsModule.property("fileName").toString())
+				.arg(jsModule.property("lineNumber").toInt())
+				.arg(jsModule.toString());
+		}
+		else if (!jsModule.hasOwnProperty("name") || !jsModule.property("name").isString())
+			qWarning() << Q_FUNC_INFO << lampScript << "does not have \"export const name = string\"";
+		else if (!jsModule.hasOwnProperty("shine") || !jsModule.property("shine").isCallable())
+			qWarning() << Q_FUNC_INFO << lampScript << "does not have \"export function shine(baseColor, colors){...}\"";
+		else {
+			m_lamps.insert(lampScript,
+				MoodLampLampInfo(
+					jsModule.property("name").toString(),
+					lampScript,
+					lampDir.filePath(lampScript)
+				)
+			);
+			enableConsole |= jsModule.hasOwnProperty("enableConsole") && jsModule.property("enableConsole").toBool();
+		}
+	}
+	if (m_lamps.isEmpty()) {
+		qWarning() << Q_FUNC_INFO << "No moodlamps loaded from " << lampDir.absolutePath() << "; file names have to match" << cleanNameFilter.pattern();
+	}
+	if (enableConsole)
+		m_jsEngine.installExtensions(QJSEngine::ConsoleExtension);
+
 	connect(&m_timer, SIGNAL(timeout()), this, SLOT(updateColors()));
 	initFromSettings();
 }
 
 MoodLampManager::~MoodLampManager()
 {
-	if (m_lamp)
-		delete m_lamp;
+	m_jsEngine.collectGarbage();
 }
 
 void MoodLampManager::start(bool isEnabled)
@@ -64,8 +102,8 @@ void MoodLampManager::start(bool isEnabled)
 	else
 		m_generator.stop();
 
-	if (m_isMoodLampEnabled && m_lamp)
-		m_timer.start(m_lamp->interval());
+	if (m_isMoodLampEnabled && !m_jsLamp.isUndefined())
+		m_timer.start(std::max(1, m_jsLamp.property("interval").toInt()));
 	else
 		m_timer.stop();
 }
@@ -136,39 +174,79 @@ void MoodLampManager::initFromSettings()
 	setCurrentLamp(Settings::getMoodLampLamp());
 }
 
-void MoodLampManager::setCurrentLamp(const int id)
+void MoodLampManager::setCurrentLamp(const QString& moduleName)
 {
 	m_timer.stop();
 
-	if (m_lamp) {
-		delete m_lamp;
-		m_lamp = nullptr;
+	if (!m_jsLamp.isUndefined()) {
+		m_jsLamp = QJSValue();
+		m_jsEngine.collectGarbage();
 	}
 
-	m_lamp = MoodLampBase::createWithID(id);
+	if (!m_lamps.contains(moduleName)) {
+		qWarning() << Q_FUNC_INFO << moduleName << "uknown lamp";
+		return;
+	}
+
+	const MoodLampLampInfo& lampInfo = m_lamps[moduleName];
+
+	const QJSValue& newLamp = m_jsEngine.importModule(lampInfo.modulePath);
+	if (newLamp.isError()) {
+		qWarning() << Q_FUNC_INFO << QString("JS Error in %1:%2 %3")
+			.arg(newLamp.property("fileName").toString())
+			.arg(newLamp.property("lineNumber").toInt())
+			.arg(newLamp.toString());
+		return;
+	}
+	m_jsLamp = newLamp;
 	emit moodlampFrametime(1000); // reset FPS to 1
-	if (m_isMoodLampEnabled && m_lamp)
-		m_timer.start(m_lamp->interval());
+	if (m_isMoodLampEnabled && !m_jsLamp.isUndefined())
+		m_timer.start(std::max(1, m_jsLamp.property("interval").toInt()));
 }
 
 void MoodLampManager::updateColors(const bool forceUpdate)
 {
 	DEBUG_HIGH_LEVEL << Q_FUNC_INFO << m_isLiquidMode;
 
-	QColor newColor;
+	QColor baseColor;
 
 	if (m_isLiquidMode)
-	{
-		newColor = m_generator.current();
-	}
+		baseColor = m_generator.current();
 	else
-	{
-		newColor = m_currentColor;
+		baseColor = m_currentColor;
+
+	DEBUG_MID_LEVEL << Q_FUNC_INFO << baseColor.rgb();
+
+	bool changed = false;
+	if (!m_jsLamp.isUndefined()) {
+		QJSValueList args;
+		args << baseColor.rgb();
+		args << m_jsEngine.toScriptValue(m_colors);
+		const QJSValue& result = m_jsLamp.property("shine").call(args);
+		if (result.isError()) {
+			qWarning() << Q_FUNC_INFO << QString("JS Error in %1:%2 %3")
+				.arg(result.property("fileName").toString())
+				.arg(result.property("lineNumber").toInt())
+				.arg(result.toString());
+		}
+		else if (!result.isArray())
+			qWarning() << Q_FUNC_INFO << m_jsLamp.property("name").toString() << "shine() does not return [rgb1, rgb2, ...]";
+		else {
+			const QVariantList& colors = result.toVariant().toList();
+			for (int i = 0; i < colors.size(); ++i) {
+				const QRgb newColor = Settings::isLedEnabled(i) ? colors[i].toInt() : 0;
+				changed = changed || (m_colors[i] != newColor);
+				m_colors[i] = newColor;
+			}
+		}
+	}
+	else { // fallback to static
+		for (QRgb& color : m_colors) {
+			changed = changed || (color != baseColor.rgb());
+			color = baseColor.rgb();
+		}
 	}
 
-	DEBUG_MID_LEVEL << Q_FUNC_INFO << newColor.rgb();
-
-	bool changed = (m_lamp ? m_lamp->shine(newColor, m_colors) : false);
 	if (changed || !m_isSendDataOnlyIfColorsChanged || forceUpdate) {
 		emit updateLedsColors(m_colors);
 		if (forceUpdate) {
@@ -195,10 +273,5 @@ void MoodLampManager::initColors(int numberOfLeds)
 
 void MoodLampManager::requestLampList()
 {
-	QList<MoodLampLampInfo> list;
-	int recommended = 0;
-
-	MoodLampBase::populateNameList(list, recommended);
-
-	emit lampList(list, recommended);
+	emit lampList(m_lamps.values());
 }

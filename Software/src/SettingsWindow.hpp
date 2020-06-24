@@ -112,7 +112,7 @@ public slots:
 	void onPingDeviceEverySecond_Toggled(bool state);
 	void processMessage(const QString &message);
 
-	void updateAvailableMoodLampLamps(const QList<MoodLampLampInfo> & lamps, int recommended);
+	void updateAvailableMoodLampLamps(const QList<MoodLampLampInfo> & lamps);
 #ifdef SOUNDVIZ_SUPPORT
 	void updateAvailableSoundVizDevices(const QList<SoundManagerDeviceInfo> & devices, int recommended);
 	void updateAvailableSoundVizVisualizers(const QList<SoundManagerVisualizerInfo> & visualizers, int recommended);

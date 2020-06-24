@@ -725,9 +725,9 @@ Internally emulates the effects of f.lux, redshift, Night Light, Night Shift...<
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_2">
               <item>
-               <widget class="QRadioButton" name="radioButton_ConstantColorMoodLampMode">
+               <widget class="QRadioButton" name="radioButton_BaseColorMoodLamp">
                 <property name="text">
-                 <string>Constant color:</string>
+                 <string>Base color:</string>
                 </property>
                 <property name="checkable">
                  <bool>true</bool>
@@ -3087,7 +3087,7 @@ Internally emulates the effects of f.lux, redshift, Night Light, Night Shift...<
   <tabstop>radioButton_GrabWidgetsDontShow</tabstop>
   <tabstop>radioButton_Colored</tabstop>
   <tabstop>radioButton_White</tabstop>
-  <tabstop>radioButton_ConstantColorMoodLampMode</tabstop>
+  <tabstop>radioButton_BaseColorMoodLamp</tabstop>
   <tabstop>pushButton_SelectColorMoodLamp</tabstop>
   <tabstop>radioButton_LiquidColorMoodLampMode</tabstop>
   <tabstop>horizontalSlider_MoodLampSpeed</tabstop>
