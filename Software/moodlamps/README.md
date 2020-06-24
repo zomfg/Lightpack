@@ -2,7 +2,7 @@ Moodlamp scripting
 ---------
 Prismatik uses [QJSEngine](https://doc.qt.io/qt-5/qjsengine.html) for parsing and running moodlamp scripts, so if you are familiar with JavaScript you'll be fine.
 
-The scripts live in your users Prismatik folder:
+The scripts live in your user's Prismatik folder:
 - Windows: `C:\Users\<you>\Prismatik\Scripts\moodlamps`
 - macOS & Linux: `~/.Prismatik/Scripts/moodlamps`
 
@@ -14,7 +14,7 @@ File name should obey these rules:
 For ex: `my_cool_lamp.mjs`
 
 
-The bare minimum template:
+**The bare minimum template:**
 ```js
 export const name = "your lamp name here"
 export const interval = 50 // frame time in ms
@@ -36,7 +36,8 @@ export function shine(baseColor, colors)
 }
 ```
 
-More examples:
+
+**More examples:**
 
 ```js
 export const name = "your lamp name here"
@@ -68,10 +69,13 @@ export function shine(baseColor, colors)
 
 ```
 
+**Recommended way:**
 
-For convinience, Prismatik partially exposes `QColor` class, see [here for documentation](https://doc.qt.io/qt-5/qcolor.html) and [here for exposed methods](/Software/src/MoodLamp.cpp)
+For convinience, Prismatik partially exposes `QColor` class, see [here for documentation](https://doc.qt.io/qt-5/qcolor.html) and [here for exposed methods](/Software/src/QColorMetaWrapper.hpp).
+Prismatik uses `QColor` internally so for best compatibility it's better to use this class.
+Raw RGB values should work, but use them at your own risk.
 
-#### **`rgb_is_life.js`**
+Example from `rgb_is_life.js`:
 ```js
 export const name = "RGB is Life"
 export const interval = 33 // ms
@@ -109,3 +113,25 @@ export function shine(baseColor, colors)
 	return colors
 }
 ```
+
+**Logging and console**
+
+If you enable logs in Prismatik your JS errors will be logged to
+- Windows: `C:\Users\<you>\Prismatik\Logs`
+- macOS & Linux: `~/.Prismatik/Logs`
+
+
+You can also enable the [Console API](https://doc.qt.io/qt-5/qtquick-debugging.html#console-api)
+
+```js
+export const enableConsole = true
+...
+export function shine()
+{
+	...
+	console.log("some debug")
+	...
+}
+```
+
+Don't forget to remove when you are done
