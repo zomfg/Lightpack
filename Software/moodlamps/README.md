@@ -114,6 +114,9 @@ export function shine(baseColor, colors)
 }
 ```
 
+**Warnig:** if you want to _alter_ Prismatik's own scripts, make sure to make a copy of them and start from there so your lamps won't be overwritten with an update.
+
+
 **Logging and console**
 
 If you enable logs in Prismatik your JS errors will be logged to
