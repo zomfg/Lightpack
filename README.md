@@ -104,6 +104,7 @@ handle other devices with Prismatik such as Adalight, Ardulight, or even Alienwa
 You will need the following packages, usually all of them are in distro's repository:
 * qt5-default
 * libqt5serialport5-dev
+* qtdeclarative5-dev <!--- qml module -->
 * build-essential
 * libgtk2.0-dev
 * libusb-1.0-0-dev
