@@ -222,7 +222,16 @@ void MoodLampManager::updateColors(const bool forceUpdate)
 	if (!m_jsLamp.isUndefined()) {
 		QJSValueList args;
 		args << baseColor.rgb();
-		args << m_jsEngine.toScriptValue(m_colors);
+
+		QVariantList outColors;
+		outColors.reserve(m_colors.size());
+		for (const QRgb color : m_colors)
+			outColors << color;
+		args << m_jsEngine.toScriptValue(outColors);
+
+		// Qt 5.15+ can auto convert m_colors
+		//args << m_jsEngine.toScriptValue(m_colors);
+
 		const QJSValue& result = m_jsLamp.property("shine").call(args);
 		if (result.isError()) {
 			qWarning() << Q_FUNC_INFO << QString("JS Error in %1:%2 %3")
@@ -230,9 +239,7 @@ void MoodLampManager::updateColors(const bool forceUpdate)
 				.arg(result.property("lineNumber").toInt())
 				.arg(result.toString());
 		}
-		else if (!result.isArray())
-			qWarning() << Q_FUNC_INFO << m_jsLamp.property("name").toString() << "shine() does not return [rgb1, rgb2, ...]";
-		else {
+		else if (result.isArray()) {
 			const QVariantList& colors = result.toVariant().toList();
 			for (int i = 0; i < colors.size(); ++i) {
 				const QRgb newColor = Settings::isLedEnabled(i) ? colors[i].toInt() : 0;
@@ -240,6 +247,8 @@ void MoodLampManager::updateColors(const bool forceUpdate)
 				m_colors[i] = newColor;
 			}
 		}
+		else
+			qWarning() << Q_FUNC_INFO << m_jsLamp.property("name").toString() << "shine() does not return [rgb1, rgb2, ...]";
 	}
 	else { // fallback to static
 		for (QRgb& color : m_colors) {
