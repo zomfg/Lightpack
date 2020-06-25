@@ -42,6 +42,7 @@ MoodLampManager::MoodLampManager(const QString& appDir, QObject *parent) : QObje
 	m_timer.setTimerType(Qt::PreciseTimer);
 	m_jsEngine.setParent(this);
 	m_jsEngine.globalObject().setProperty("QColor", m_jsEngine.newQMetaObject<QColorMetaWrapper>());
+	m_jsEngine.globalObject().setProperty("QT_VERSION", QT_VERSION);
 
 	const QDir lampDir(appDir + "/Scripts/moodlamps", "*.mjs", QDir::IgnoreCase | QDir::Name, QDir::Files);
 	const QRegularExpression cleanNameFilter("^[a-z0-9_]+\\.mjs$");
