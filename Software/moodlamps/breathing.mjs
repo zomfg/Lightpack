@@ -1,18 +1,22 @@
 export const name = "Breathing"
-
 export const interval = 40 // ms
 
-let lightnessInc = 1
+let lightnessInc = -1
+let lightness = -1
 
 export function shine(baseColor, colors)
 {
 	baseColor = new QColor(baseColor)
-	let color = new QColor(colors[0])
-	if (color.lightness() == 50 && lightnessInc == -1)
+	if (lightness == -1)
+		lightness = baseColor.lightness()
+	let color = new QColor()
+	if (lightness <= baseColor.lightness() / 2 && lightnessInc == -1)
 		lightnessInc = 1
-	else if (color.lightness() == baseColor.lightness() && lightnessInc == 1)
+	else if (lightness >= baseColor.lightness() - 1 && lightnessInc == 1)
 		lightnessInc = -1
 
-	color.setHsl(baseColor.hslHue(), baseColor.hslSaturation(), color.lightness() + lightnessInc)
-    return colors.fill(color.rgb())
+	lightness += lightnessInc
+
+	color.setHsl(baseColor.hslHue(), baseColor.hslSaturation(), lightness)
+	return colors.fill(color.rgb())
 }
