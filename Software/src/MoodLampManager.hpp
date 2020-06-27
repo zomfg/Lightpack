@@ -30,6 +30,7 @@
 #include <QTimer>
 #include <QElapsedTimer>
 #include <QJSEngine>
+#include <QDir>
 #include "LiquidColorGenerator.hpp"
 //#include "MoodLamp.hpp"
 
@@ -78,6 +79,8 @@ private slots:
 
 private:
 	void initColors(int numberOfLeds);
+	QDir installScripts(const QString& appDir);
+	void loadScripts(const QDir& appDir);
 
 private:
 	LiquidColorGenerator m_generator;

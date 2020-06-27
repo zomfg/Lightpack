@@ -29,8 +29,6 @@
 #include "Settings.hpp"
 #include "QColorMetaWrapper.hpp"
 #include <QTime>
-#include <QJSEngine>
-#include <QDir>
 #include <QRegularExpression>
 
 using namespace SettingsScope;
@@ -44,38 +42,7 @@ MoodLampManager::MoodLampManager(const QString& appDir, QObject *parent) : QObje
 	m_jsEngine.globalObject().setProperty("QColor", m_jsEngine.newQMetaObject<QColorMetaWrapper>());
 	m_jsEngine.globalObject().setProperty("QT_VERSION", QT_VERSION);
 
-	const QDir lampDir(appDir + "/Scripts/moodlamps", "*.mjs", QDir::IgnoreCase | QDir::Name, QDir::Files);
-	const QRegularExpression cleanNameFilter("^[a-z0-9_]+\\.mjs$");
-	const QStringList& lampScriptList = lampDir.entryList().filter(cleanNameFilter);
-	bool enableConsole = false;
-	for (const QString& lampScript : lampScriptList) {
-		const QJSValue& jsModule = m_jsEngine.importModule(lampDir.filePath(lampScript));
-		if (jsModule.isError()) {
-			qWarning() << Q_FUNC_INFO << lampScript << QString("JS Error in %1:%2 %3")
-				.arg(jsModule.property("fileName").toString())
-				.arg(jsModule.property("lineNumber").toInt())
-				.arg(jsModule.toString());
-		}
-		else if (!jsModule.hasOwnProperty("name") || !jsModule.property("name").isString())
-			qWarning() << Q_FUNC_INFO << lampScript << "does not have \"export const name = string\"";
-		else if (!jsModule.hasOwnProperty("shine") || !jsModule.property("shine").isCallable())
-			qWarning() << Q_FUNC_INFO << lampScript << "does not have \"export function shine(baseColor, colors){...}\"";
-		else {
-			m_lamps.insert(lampScript,
-				MoodLampLampInfo(
-					jsModule.property("name").toString(),
-					lampScript,
-					lampDir.filePath(lampScript)
-				)
-			);
-			enableConsole |= jsModule.hasOwnProperty("enableConsole") && jsModule.property("enableConsole").toBool();
-		}
-	}
-	if (m_lamps.isEmpty()) {
-		qWarning() << Q_FUNC_INFO << "No moodlamps loaded from " << lampDir.absolutePath() << "; file names have to match" << cleanNameFilter.pattern();
-	}
-	if (enableConsole)
-		m_jsEngine.installExtensions(QJSEngine::ConsoleExtension);
+	loadScripts(installScripts(appDir));
 
 	connect(&m_timer, SIGNAL(timeout()), this, SLOT(updateColors()));
 	initFromSettings();
@@ -284,4 +251,59 @@ void MoodLampManager::initColors(int numberOfLeds)
 void MoodLampManager::requestLampList()
 {
 	emit lampList(m_lamps.values());
+}
+
+QDir MoodLampManager::installScripts(const QString& appDir)
+{
+	const QString moodlampsDirName("moodlamps");
+	QDir installDir(appDir);
+	if (!installDir.exists(moodlampsDirName))
+		installDir.mkdir(moodlampsDirName);
+	installDir.cd(moodlampsDirName);
+
+	const QDir resLampDir(":/" + moodlampsDirName, "*.mjs", QDir::IgnoreCase | QDir::Name, QDir::Files);
+	const QStringList& reslampScriptList = resLampDir.entryList();
+	for (const QString& lampScript : reslampScriptList) {
+		if (QFile::exists(installDir.absoluteFilePath(lampScript)) && !QFile::remove(installDir.absoluteFilePath(lampScript))) {
+			qWarning() << Q_FUNC_INFO << "Could not remove" << lampScript;
+			continue;
+		}
+		if (!QFile::copy(":/" + moodlampsDirName + "/" + lampScript, installDir.absoluteFilePath(lampScript)))
+			qWarning() << Q_FUNC_INFO << "Cound not install" << lampScript;
+	}
+	return installDir;
+}
+
+void MoodLampManager::loadScripts(const QDir& scriptDir)
+{
+	const QRegularExpression cleanNameFilter("^[a-z0-9_]+\\.mjs$");
+	const QStringList& lampScriptList = scriptDir.entryList().filter(cleanNameFilter);
+	bool enableConsole = false;
+	for (const QString& lampScript : lampScriptList) {
+		const QJSValue& jsModule = m_jsEngine.importModule(scriptDir.filePath(lampScript));
+		if (jsModule.isError()) {
+			qWarning() << Q_FUNC_INFO << lampScript << QString("JS Error in %1:%2 %3")
+				.arg(jsModule.property("fileName").toString())
+				.arg(jsModule.property("lineNumber").toInt())
+				.arg(jsModule.toString());
+		}
+		else if (!jsModule.hasOwnProperty("name") || !jsModule.property("name").isString())
+			qWarning() << Q_FUNC_INFO << lampScript << "does not have \"export const name = string\"";
+		else if (!jsModule.hasOwnProperty("shine") || !jsModule.property("shine").isCallable())
+			qWarning() << Q_FUNC_INFO << lampScript << "does not have \"export function shine(baseColor, colors){...}\"";
+		else {
+			m_lamps.insert(lampScript,
+				MoodLampLampInfo(
+					jsModule.property("name").toString(),
+					lampScript,
+					scriptDir.filePath(lampScript)
+				)
+			);
+			enableConsole |= jsModule.hasOwnProperty("enableConsole") && jsModule.property("enableConsole").toBool();
+		}
+	}
+	if (m_lamps.isEmpty())
+		qWarning() << Q_FUNC_INFO << "No moodlamps loaded from " << scriptDir.absolutePath() << "; file names have to match" << cleanNameFilter.pattern();
+	if (enableConsole)
+		m_jsEngine.installExtensions(QJSEngine::ConsoleExtension);
 }

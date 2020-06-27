@@ -40,7 +40,7 @@ handle other devices with Prismatik such as Adalight, Ardulight, or even Alienwa
 
   ![SoundViz](screenshots/soundviz_win.png)
 
-* Scriptable Mood Lamps ([see here how](/Software/moodlamps/))
+* Scriptable Mood Lamps ([see here how](/Software/res/moodlamps/))
 
   ![Mood Lamps](screenshots/moodlamps_win.png)
 

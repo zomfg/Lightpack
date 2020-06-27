@@ -3,8 +3,8 @@ Moodlamp scripting
 Prismatik uses [QJSEngine](https://doc.qt.io/qt-5/qjsengine.html) for parsing and running moodlamp scripts, so if you are familiar with JavaScript you'll be fine.
 
 The scripts live in your user's Prismatik folder:
-- Windows: `C:\Users\<you>\Prismatik\Scripts\moodlamps`
-- macOS & Linux: `~/.Prismatik/Scripts/moodlamps`
+- Windows: `C:\Users\<you>\Prismatik\moodlamps`
+- macOS & Linux: `~/.Prismatik/moodlamps`
 
 File name should obey these rules:
 - allowed characters `a-z`, `0-9` and `_` (underscore)
