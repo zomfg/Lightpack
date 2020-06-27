@@ -700,7 +700,6 @@ void LightpackApplication::initGrabManager()
 	m_grabManager = new GrabManager(NULL);
 
 	m_moodlampManager = new MoodLampManager(m_applicationDirPath);
-	m_moodlampManager->initFromSettings();
 
 #ifdef SOUNDVIZ_SUPPORT
 	m_soundManager = SoundManagerBase::create(m_settingsWindow->winId(), NULL);
