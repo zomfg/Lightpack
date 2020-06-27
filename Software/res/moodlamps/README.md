@@ -114,7 +114,11 @@ export function shine(baseColor, colors)
 }
 ```
 
-**Warnig:** if you want to _alter_ Prismatik's own scripts, make sure to make a copy of them and start from there so your lamps won't be overwritten with an update.
+
+To see your changes use the reload button or relaunch the app.
+
+
+**Warnig:** scripts bundled with Prismatik are overwritten on launch, if you want to customize Prismatik's scripts, make sure to make a copy of them and modify those.
 
 
 **Logging and console**

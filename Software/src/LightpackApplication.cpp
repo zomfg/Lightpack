@@ -773,8 +773,9 @@ void LightpackApplication::initGrabManager()
 		}
 #endif
 
-		connect(m_settingsWindow, SIGNAL(requestMoodLampLamps()), m_moodlampManager, SLOT(requestLampList()));
+		connect(m_settingsWindow, SIGNAL(requestMoodLampLamps(bool)), m_moodlampManager, SLOT(requestLampList(bool)));
 		connect(m_moodlampManager, SIGNAL(lampList(const QList<MoodLampLampInfo> &)), m_settingsWindow, SLOT(updateAvailableMoodLampLamps(const QList<MoodLampLampInfo> &)));
+		connect(m_settingsWindow, SIGNAL(openMoodLampScriptDir()), this, SLOT(openMoodLampScriptDir()));
 	}
 
 	connect(m_grabManager, SIGNAL(ambilightTimeOfUpdatingColors(double)), m_pluginInterface, SLOT(refreshAmbilightEvaluated(double)));
@@ -790,6 +791,11 @@ void LightpackApplication::initGrabManager()
 		connect(m_soundManager,		SIGNAL(visualizerFrametime(const double)),	m_settingsWindow, SLOT(refreshAmbilightEvaluated(double)), Qt::QueuedConnection);
 	}
 #endif
+}
+
+void LightpackApplication::openMoodLampScriptDir()
+{
+	QDesktopServices::openUrl(QUrl(m_moodlampManager->scriptDir()));
 }
 
 void LightpackApplication::commitData(QSessionManager &sessionManager)

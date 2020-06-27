@@ -720,7 +720,33 @@ Internally emulates the effects of f.lux, redshift, Night Light, Night Shift...<
              <number>0</number>
             </property>
             <item>
-             <widget class="QComboBox" name="comboBox_MoodLampLamp"/>
+             <layout class="QHBoxLayout" name="horizontalLayout_moodlampList">
+              <item>
+               <widget class="QComboBox" name="comboBox_MoodLampLamp"/>
+              </item>
+              <item>
+               <widget class="QToolButton" name="toolButton_MoodLampReload">
+                <property name="text">
+                 <string>Reload</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../res/LightpackResources.qrc">
+                  <normaloff>:/icons/refresh.png</normaloff>:/icons/refresh.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="toolButton_MoodLampOpenDir">
+                <property name="text">
+                 <string>Add more</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../res/LightpackResources.qrc">
+                  <normaloff>:/icons/profile_new.png</normaloff>:/icons/profile_new.png</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_2">

@@ -59,7 +59,7 @@ signals:
 
 public:
 	void start(bool isMoodLampEnabled);
-
+	QString scriptDir() const;
 	// Common options
 	void reset();
 
@@ -71,7 +71,7 @@ public slots:
 	void setNumberOfLeds(int value);
 	void setCurrentColor(QColor color);
 	void setCurrentLamp(const QString& moduleName);
-	void requestLampList();
+	void requestLampList(const bool reloadScripts);
 	void setSendDataOnlyIfColorsChanged(bool state);
 
 private slots:
@@ -80,7 +80,7 @@ private slots:
 private:
 	void initColors(int numberOfLeds);
 	QDir installScripts(const QString& appDir);
-	void loadScripts(const QDir& appDir);
+	QJSEngine* loadScripts();
 
 private:
 	LiquidColorGenerator m_generator;
@@ -95,8 +95,10 @@ private:
 	QElapsedTimer m_elapsedTimer;
 	size_t m_frames{ 1 };
 
-	QJSEngine m_jsEngine;
+	QJSEngine* m_jsEngine;
 	QJSValue m_jsLamp;
+	QDir m_scriptDir;
+	QString m_lampModuleName;
 
 	QMap<QString, MoodLampLampInfo> m_lamps;
 };

@@ -78,7 +78,7 @@ signals:
 	void requestSoundVizDevices();
 	void requestSoundVizVisualizers();
 #endif
-	void requestMoodLampLamps();
+	void requestMoodLampLamps(const bool reloadScripts);
 	void recreateLedDevice();
 	void resultBacklightStatus(Backlight::Status);
 	void backlightStatusChanged(Backlight::Status);
@@ -88,6 +88,7 @@ signals:
 	void updateApiKey(QString key);
 	void updateApiDeviceNumberOfLeds(int value);
 	void reloadPlugins();
+	void openMoodLampScriptDir();
 
 public slots:
 	void ledDeviceOpenSuccess(bool isSuccess);
@@ -138,6 +139,8 @@ private slots:
 	void onMoodLampSpeed_valueChanged(int value);
 	void onMoodLampLamp_currentIndexChanged(int index);
 	void onMoodLampLiquidMode_Toggled(bool isLiquidMode);
+	void onMoodLampReloadScripts_clicked();
+	void onMoodLampOpenScripts_clicked();
 #ifdef SOUNDVIZ_SUPPORT
 	void onSoundVizDevice_currentIndexChanged(int index);
 	void onSoundVizVisualizer_currentIndexChanged(int index);

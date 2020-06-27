@@ -222,6 +222,8 @@ void SettingsWindow::connectSignalsSlots()
 	connect(ui->radioButton_LiquidColorMoodLampMode, SIGNAL(toggled(bool)), this, SLOT(onMoodLampLiquidMode_Toggled(bool)));
 	connect(ui->horizontalSlider_MoodLampSpeed, SIGNAL(valueChanged(int)), this, SLOT(onMoodLampSpeed_valueChanged(int)));
 	connect(ui->comboBox_MoodLampLamp, SIGNAL(currentIndexChanged(int)), this, SLOT(onMoodLampLamp_currentIndexChanged(int)));
+	connect(ui->toolButton_MoodLampReload, SIGNAL(clicked()), this, SLOT(onMoodLampReloadScripts_clicked()));
+	connect(ui->toolButton_MoodLampOpenDir, SIGNAL(clicked()), this, SLOT(onMoodLampOpenScripts_clicked()));
 
 	// Main options
 	connect(ui->comboBox_LightpackModes, SIGNAL(currentIndexChanged(int)), this, SLOT(onLightpackModes_currentIndexChanged(int)));
@@ -496,7 +498,7 @@ int SettingsWindow::getLigtpackFirmwareVersionMajor()
 void SettingsWindow::onPostInit() {
 	updateUiFromSettings();
 	this->requestFirmwareVersion();
-	this->requestMoodLampLamps();
+	this->requestMoodLampLamps(false);
 #ifdef SOUNDVIZ_SUPPORT
 	this->requestSoundVizDevices();
 	this->requestSoundVizVisualizers();
@@ -1457,6 +1459,20 @@ void SettingsWindow::onMoodLampLiquidMode_Toggled(bool checked)
 		ui->pushButton_SelectColorMoodLamp->setEnabled(true);
 		ui->horizontalSlider_MoodLampSpeed->setEnabled(false);
 	}
+}
+
+void SettingsWindow::onMoodLampReloadScripts_clicked()
+{
+	DEBUG_LOW_LEVEL << Q_FUNC_INFO;
+
+	this->requestMoodLampLamps(true);
+}
+
+void SettingsWindow::onMoodLampOpenScripts_clicked()
+{
+	DEBUG_LOW_LEVEL << Q_FUNC_INFO;
+
+	this->openMoodLampScriptDir();
 }
 
 #ifdef SOUNDVIZ_SUPPORT
