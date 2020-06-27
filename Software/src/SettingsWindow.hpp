@@ -141,6 +141,7 @@ private slots:
 	void onMoodLampLiquidMode_Toggled(bool isLiquidMode);
 	void onMoodLampReloadScripts_clicked();
 	void onMoodLampOpenScripts_clicked();
+	void onMoodLampOpenReadme_clicked();
 #ifdef SOUNDVIZ_SUPPORT
 	void onSoundVizDevice_currentIndexChanged(int index);
 	void onSoundVizVisualizer_currentIndexChanged(int index);

@@ -746,6 +746,26 @@ Internally emulates the effects of f.lux, redshift, Night Light, Night Shift...<
                 </property>
                </widget>
               </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_MoodLampOpenReadme">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="../res/LightpackResources.qrc">
+                  <normaloff>:/icons/help.png</normaloff>:/icons/help.png</iconset>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
              </layout>
             </item>
             <item>

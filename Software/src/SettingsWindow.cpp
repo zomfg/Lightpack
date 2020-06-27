@@ -224,6 +224,7 @@ void SettingsWindow::connectSignalsSlots()
 	connect(ui->comboBox_MoodLampLamp, SIGNAL(currentIndexChanged(int)), this, SLOT(onMoodLampLamp_currentIndexChanged(int)));
 	connect(ui->toolButton_MoodLampReload, SIGNAL(clicked()), this, SLOT(onMoodLampReloadScripts_clicked()));
 	connect(ui->toolButton_MoodLampOpenDir, SIGNAL(clicked()), this, SLOT(onMoodLampOpenScripts_clicked()));
+	connect(ui->pushButton_MoodLampOpenReadme, SIGNAL(clicked()), this, SLOT(onMoodLampOpenReadme_clicked()));
 
 	// Main options
 	connect(ui->comboBox_LightpackModes, SIGNAL(currentIndexChanged(int)), this, SLOT(onLightpackModes_currentIndexChanged(int)));
@@ -1473,6 +1474,13 @@ void SettingsWindow::onMoodLampOpenScripts_clicked()
 	DEBUG_LOW_LEVEL << Q_FUNC_INFO;
 
 	this->openMoodLampScriptDir();
+}
+
+void SettingsWindow::onMoodLampOpenReadme_clicked()
+{
+	DEBUG_LOW_LEVEL << Q_FUNC_INFO;
+
+	QDesktopServices::openUrl(QUrl("https://github.com/psieg/Lightpack/tree/master/Software/res/moodlamps"));
 }
 
 #ifdef SOUNDVIZ_SUPPORT
