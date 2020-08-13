@@ -24,7 +24,7 @@ export const interval = 50 // frame time in ms
  * @param {array}	colors		array of RGB integers representing your LEDs
  * @return {array}	array of new RGB integers representing your LEDs
  */
-export function shine(baseColor, colors)
+export function tick(baseColor, colors)
 {
 	for (let i = 0; i < colors.length; i++)
 	{
@@ -49,7 +49,7 @@ const myBlueConst = 0x0000FF // blue color
 // if you need a variable that persists between frames (a counter for ex), declare it here
 let someVariable = 0
 
-export function shine(baseColor, colors)
+export function tick(baseColor, colors)
 {
 	for (let i = 0; i < colors.length; i++)
 	{
@@ -84,7 +84,7 @@ const speed = 1.5
 
 let m_frames = 0
 
-export function shine(baseColor, colors)
+export function tick(baseColor, colors)
 {
 	// transform base RGB value into QColor
 	baseColor = new QColor(baseColor)
@@ -133,7 +133,7 @@ You can also enable the [Console API](https://doc.qt.io/qt-5/qtquick-debugging.h
 ```js
 export const enableConsole = true
 ...
-export function shine()
+export function tick()
 {
 	...
 	console.log("some debug")

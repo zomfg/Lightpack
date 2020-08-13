@@ -4,7 +4,7 @@ const speed = 1.5
 
 let m_frames = 0
 
-export default function shine(baseColor, colors)
+export default function tick(baseColor, colors)
 {
 	baseColor = new QColor(baseColor)
 	const degrees = 360.0 / colors.length

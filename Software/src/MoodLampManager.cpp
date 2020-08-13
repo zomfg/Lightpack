@@ -57,7 +57,7 @@ void MoodLampManager::start(bool isEnabled)
 	DEBUG_LOW_LEVEL << Q_FUNC_INFO << isEnabled;
 
 	m_isMoodLampEnabled = isEnabled;
-	
+
 	if (m_isMoodLampEnabled)
 	{
 		// This is usable if start is called after API unlock, and we should force set current color
@@ -199,7 +199,7 @@ void MoodLampManager::updateColors(const bool forceUpdate)
 		// Qt 5.15+ can auto convert m_colors
 		//args << m_jsEngine.toScriptValue(m_colors);
 
-		const QJSValue& result = m_jsLamp.property("shine").call(args);
+		const QJSValue& result = m_jsLamp.property("tick").call(args);
 		if (result.isError()) {
 			qWarning() << Q_FUNC_INFO << QString("JS Error in %1:%2 %3")
 				.arg(result.property("fileName").toString())
@@ -215,7 +215,7 @@ void MoodLampManager::updateColors(const bool forceUpdate)
 			}
 		}
 		else
-			qWarning() << Q_FUNC_INFO << m_jsLamp.property("name").toString() << "shine() does not return [rgb1, rgb2, ...]";
+			qWarning() << Q_FUNC_INFO << m_jsLamp.property("name").toString() << "tick() does not return [rgb1, rgb2, ...]";
 	}
 	else { // fallback to static
 		for (QRgb& color : m_colors) {
@@ -303,8 +303,8 @@ QJSEngine* MoodLampManager::loadScripts()
 		}
 		else if (!jsModule.hasOwnProperty("name") || !jsModule.property("name").isString())
 			qWarning() << Q_FUNC_INFO << lampScript << "does not have \"export const name = string\"";
-		else if (!jsModule.hasOwnProperty("shine") || !jsModule.property("shine").isCallable())
-			qWarning() << Q_FUNC_INFO << lampScript << "does not have \"export function shine(baseColor, colors){...}\"";
+		else if (!jsModule.hasOwnProperty("tick") || !jsModule.property("tick").isCallable())
+			qWarning() << Q_FUNC_INFO << lampScript << "does not have \"export function tick(baseColor, colors){...}\"";
 		else {
 			m_lamps.insert(lampScript,
 				MoodLampLampInfo(

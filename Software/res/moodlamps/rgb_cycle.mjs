@@ -3,7 +3,7 @@ export const interval = 33 // ms
 
 let degrees = 0
 
-export function shine(baseColor, colors)
+export function tick(baseColor, colors)
 {
 	baseColor = new QColor(baseColor)
 	baseColor.setHsl(baseColor.hslHue() + degrees++, baseColor.hslSaturation(), baseColor.lightness())

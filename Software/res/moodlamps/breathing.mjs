@@ -4,7 +4,7 @@ export const interval = 40 // ms
 let lightnessInc = -1
 let lightness = -1
 
-export function shine(baseColor, colors)
+export function tick(baseColor, colors)
 {
 	baseColor = new QColor(baseColor)
 	if (lightness == -1)

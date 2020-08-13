@@ -13,7 +13,7 @@ function randomBounded(max) {
 	return Math.floor(Math.random() * Math.floor(max))
 }
 
-export function shine(baseColor, colors)
+export function tick(baseColor, colors)
 {
 	if (colors.length < 2)
 		return colors
