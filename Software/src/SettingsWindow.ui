@@ -726,6 +726,9 @@ Internally emulates the effects of f.lux, redshift, Night Light, Night Shift...<
               </item>
               <item>
                <widget class="QToolButton" name="toolButton_MoodLampReload">
+                <property name="toolTip">
+                 <string>Reload lamp list</string>
+                </property>
                 <property name="text">
                  <string>Reload</string>
                 </property>
@@ -737,6 +740,9 @@ Internally emulates the effects of f.lux, redshift, Night Light, Night Shift...<
               </item>
               <item>
                <widget class="QToolButton" name="toolButton_MoodLampOpenDir">
+                <property name="toolTip">
+                 <string>Open lamp script directory</string>
+                </property>
                 <property name="text">
                  <string>Add more</string>
                 </property>
