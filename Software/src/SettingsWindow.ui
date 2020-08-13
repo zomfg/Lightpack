@@ -3133,6 +3133,10 @@ Internally emulates the effects of f.lux, redshift, Night Light, Night Shift...<
   <tabstop>radioButton_GrabWidgetsDontShow</tabstop>
   <tabstop>radioButton_Colored</tabstop>
   <tabstop>radioButton_White</tabstop>
+  <tabstop>comboBox_MoodLampLamp</tabstop>
+  <tabstop>toolButton_MoodLampReload</tabstop>
+  <tabstop>toolButton_MoodLampOpenDir</tabstop>
+  <tabstop>pushButton_MoodLampOpenReadme</tabstop>
   <tabstop>radioButton_BaseColorMoodLamp</tabstop>
   <tabstop>pushButton_SelectColorMoodLamp</tabstop>
   <tabstop>radioButton_LiquidColorMoodLampMode</tabstop>
