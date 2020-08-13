@@ -20,7 +20,7 @@ export const name = "your lamp name here"
 export const interval = 50 // frame time in ms
 
 /**
- * @param {integer}	baseColor	integer RGB value of the base color that you set in Prismatik
+ * @param {integer}	baseColor	integer RGB value of the base color that is selected in Prismatik
  * @param {array}	colors		array of RGB integers representing your LEDs
  * @return {array}	array of new RGB integers representing your LEDs
  */
@@ -71,7 +71,7 @@ export function tick(baseColor, colors)
 
 **Recommended way:**
 
-For convinience, Prismatik partially exposes `QColor` class, see [here for documentation](https://doc.qt.io/qt-5/qcolor.html) and [here for exposed methods](/Software/src/QColorMetaWrapper.hpp).
+For convenience, Prismatik partially exposes `QColor` class, see [here for documentation](https://doc.qt.io/qt-5/qcolor.html) and [here for exposed methods](/Software/src/QColorMetaWrapper.hpp).
 Prismatik uses `QColor` internally so for best compatibility it's better to use this class.
 Raw RGB values should work, but use them at your own risk.
 

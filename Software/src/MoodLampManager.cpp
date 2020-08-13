@@ -151,7 +151,7 @@ void MoodLampManager::setCurrentLamp(const QString& moduleName)
 	}
 
 	if (!m_lamps.contains(moduleName)) {
-		qWarning() << Q_FUNC_INFO << moduleName << "uknown lamp";
+		qWarning() << Q_FUNC_INFO << moduleName << "unknown lamp";
 		return;
 	}
 
