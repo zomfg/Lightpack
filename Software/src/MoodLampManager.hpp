@@ -32,7 +32,6 @@
 #include <QJSEngine>
 #include <QDir>
 #include "LiquidColorGenerator.hpp"
-//#include "MoodLamp.hpp"
 
 struct MoodLampLampInfo {
 	MoodLampLampInfo() {}
