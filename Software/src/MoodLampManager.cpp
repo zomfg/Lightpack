@@ -168,8 +168,10 @@ void MoodLampManager::setCurrentLamp(const QString& moduleName)
 	m_lampModuleName = moduleName;
 	m_jsLamp = newLamp;
 	emit moodlampFrametime(1000); // reset FPS to 1
-	if (m_isMoodLampEnabled && !m_jsLamp.isUndefined())
+	if (m_isMoodLampEnabled && !m_jsLamp.isUndefined()) {
+		updateColors(true);
 		m_timer.start(std::max(1, m_jsLamp.property("interval").toInt()));
+	}
 }
 
 void MoodLampManager::updateColors(const bool forceUpdate)
