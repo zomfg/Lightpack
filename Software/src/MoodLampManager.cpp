@@ -70,7 +70,7 @@ void MoodLampManager::start(bool isEnabled)
 		m_generator.stop();
 
 	if (m_isMoodLampEnabled && !m_jsLamp.isUndefined())
-		m_timer.start(std::max(1, m_jsLamp.property("interval").toInt()));
+		m_timer.start(m_jsLamp.property("interval").toUInt());
 	else
 		m_timer.stop();
 }
@@ -170,7 +170,7 @@ void MoodLampManager::setCurrentLamp(const QString& moduleName)
 	emit moodlampFrametime(1000); // reset FPS to 1
 	if (m_isMoodLampEnabled && !m_jsLamp.isUndefined()) {
 		updateColors(true);
-		m_timer.start(std::max(1, m_jsLamp.property("interval").toInt()));
+		m_timer.start(m_jsLamp.property("interval").toUInt());
 	}
 }
 
@@ -307,6 +307,8 @@ QJSEngine* MoodLampManager::loadScripts()
 			qWarning() << Q_FUNC_INFO << lampScript << "does not have \"export const name = string\"";
 		else if (!jsModule.hasOwnProperty("tick") || !jsModule.property("tick").isCallable())
 			qWarning() << Q_FUNC_INFO << lampScript << "does not have \"export function tick(baseColor, colors){...}\"";
+		else if (!jsModule.hasOwnProperty("interval") || !jsModule.property("interval").isNumber() || jsModule.property("interval").toUInt() < 1)
+			qWarning() << Q_FUNC_INFO << lampScript << "does not have \"export const interval = number\" with a valid (> 0) value" ;
 		else {
 			m_lamps.insert(lampScript,
 				MoodLampLampInfo(
