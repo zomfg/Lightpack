@@ -778,6 +778,9 @@ Internally emulates the effects of f.lux, redshift, Night Light, Night Shift...<
              <layout class="QHBoxLayout" name="horizontalLayout_2">
               <item>
                <widget class="QRadioButton" name="radioButton_BaseColorMoodLamp">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A constant base color that will be passed to moodlamps as an optional seed/starting color.&lt;/p&gt;&lt;p&gt;Some lamps might not use it, some might use it partially (a combination of R,G,B,H,S,L,V components)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
                 <property name="text">
                  <string>Base color:</string>
                 </property>
@@ -791,6 +794,9 @@ Internally emulates the effects of f.lux, redshift, Night Light, Night Shift...<
               </item>
               <item>
                <widget class="ColorButton" name="pushButton_SelectColorMoodLamp">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A constant base color that will be passed to moodlamps as an optional seed/starting color.&lt;/p&gt;&lt;p&gt;Some lamps might not use it, some might use it partially (a combination of R,G,B,H,S,L,V components)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
                 <property name="text">
                  <string/>
                 </property>
@@ -821,8 +827,11 @@ Internally emulates the effects of f.lux, redshift, Night Light, Night Shift...<
               </property>
               <item>
                <widget class="QRadioButton" name="radioButton_LiquidColorMoodLampMode">
+                <property name="toolTip">
+                 <string>Makes the base color smoothly cycle through a dozen of colors at a certain rate.</string>
+                </property>
                 <property name="text">
-                 <string>Change color with rate:</string>
+                 <string>Change base color with rate:</string>
                 </property>
                </widget>
               </item>
@@ -832,6 +841,9 @@ Internally emulates the effects of f.lux, redshift, Night Light, Night Shift...<
                  <font>
                   <pointsize>8</pointsize>
                  </font>
+                </property>
+                <property name="toolTip">
+                 <string>Makes the base color smoothly cycle through a dozen of colors at a certain rate.</string>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">margin-bottom:0.4em; margin-left:0.5em</string>
@@ -848,6 +860,9 @@ Internally emulates the effects of f.lux, redshift, Night Light, Night Shift...<
                <widget class="QSlider" name="horizontalSlider_MoodLampSpeed">
                 <property name="enabled">
                  <bool>false</bool>
+                </property>
+                <property name="toolTip">
+                 <string>Makes the base color smoothly cycle through a dozen of colors at a certain rate.</string>
                 </property>
                 <property name="minimum">
                  <number>1</number>
@@ -866,6 +881,9 @@ Internally emulates the effects of f.lux, redshift, Night Light, Night Shift...<
                  <font>
                   <pointsize>8</pointsize>
                  </font>
+                </property>
+                <property name="toolTip">
+                 <string>Makes the base color smoothly cycle through a dozen of colors at a certain rate.</string>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">margin-bottom:0.4em;</string>
