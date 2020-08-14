@@ -65,7 +65,7 @@ void MoodLampManager::start(bool isEnabled)
 	}
 
 	if (m_isMoodLampEnabled && m_isLiquidMode)
-		m_generator.start();
+		m_generator.start(m_currentColor);
 	else
 		m_generator.stop();
 
@@ -90,7 +90,7 @@ void MoodLampManager::setLiquidMode(bool state)
 	m_isLiquidMode = state;
 	emit moodlampFrametime(1000); // reset FPS to 1
 	if (m_isLiquidMode && m_isMoodLampEnabled)
-		m_generator.start();
+		m_generator.start(m_currentColor);
 	else {
 		m_generator.stop();
 		if (m_isMoodLampEnabled)
