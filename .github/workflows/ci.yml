@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Pre-build setup
         run: |
-          set -e
+          set -x
           brew update
           brew install qt5
           qmake -v
@@ -32,7 +32,7 @@ jobs:
         run: macdeployqt bin/Prismatik.app -dmg
       - name: Check DMG
         run: |
-          set -e
+          set -x
           ls bin
           hdiutil attach bin/Prismatik.dmg
           ls /Volumes/bin:Prismatik/Prismatik.app
