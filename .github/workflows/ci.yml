@@ -37,8 +37,11 @@ jobs:
           set -x
           cd $BINDIR
           ls
-          hdiutil attach Prismatik.dmg
-          ls /Volumes/bin:Prismatik/Prismatik.app
-          otool -L /Volumes/bin:Prismatik/Prismatik.app/Contents/MacOS/Prismatik
-          otool -L /Volumes/bin:Prismatik/Prismatik.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
-          hdiutil detach /Volumes/bin:Prismatik
+          hdiutil attach Prismatik.dmg > /tmp/attach
+          cat /tmp/attach
+          VOLUME=`cat /tmp/attach | grep -oE '/Volumes/[^[:space:]]+'`
+          [ -e "$VOLUME" ]
+          ls $VOLUME/Prismatik.app
+          otool -L $VOLUME/Prismatik.app/Contents/MacOS/Prismatik
+          otool -L $VOLUME/Prismatik.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
+          hdiutil detach $VOLUME
