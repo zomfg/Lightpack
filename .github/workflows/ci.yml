@@ -22,6 +22,7 @@ jobs:
           $QTDIR/bin/qmake -v
           clang -v
           gcc -v
+          sysctl machdep.cpu
       - name: Build
         run: |
           export PATH=$QTDIR/bin:$PATH
@@ -33,15 +34,22 @@ jobs:
       - name: Package DMG
         run: $QTDIR/bin/macdeployqt $BINDIR/Prismatik.app -dmg
       - name: Check DMG
+        env:
+          ATTACHOUT: ${{ runner.temp }}/attach
         run: |
           set -x
           cd $BINDIR
           ls
-          hdiutil attach Prismatik.dmg > /tmp/attach
-          cat /tmp/attach
-          VOLUME=`cat /tmp/attach | grep -oE '/Volumes/[^[:space:]]+'`
+          hdiutil attach Prismatik.dmg > $ATTACHOUT
+          cat $ATTACHOUT
+          VOLUME=`cat $ATTACHOUT | grep -oE '/Volumes/[^[:space:]]+'`
           [ -e "$VOLUME" ]
           ls $VOLUME/Prismatik.app
           otool -L $VOLUME/Prismatik.app/Contents/MacOS/Prismatik
           otool -L $VOLUME/Prismatik.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
           hdiutil detach $VOLUME
+      - name: Upload DMG
+        uses: actions/upload-artifact@v2.2.0
+        with:
+          name: Prismatik.dmg
+          path: ${{ env.BINDIR }}/Prismatik.dmg
