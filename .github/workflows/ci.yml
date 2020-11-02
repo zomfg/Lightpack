@@ -8,6 +8,8 @@ jobs:
   mac_build:
     runs-on: macOS-11.0
     name: macOS 11 Big Sur Build
+    env:
+      QTDIR: /usr/local/opt/qt
     steps:
       - name: Checkout Source
         uses: actions/checkout@v2
@@ -16,12 +18,11 @@ jobs:
           set -x
           brew update
           brew install qt5
-          qmake -v
+          $QTDIR/bin/qmake -v
           clang -v
           gcc -v
       - name: Build
         run: |
-          export QTDIR=/usr/local/opt/qt
           export PATH=$QTDIR/bin:$PATH
           export VERSION=`cat Software/VERSION`
           cd Software
