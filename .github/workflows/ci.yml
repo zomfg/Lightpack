@@ -6,7 +6,7 @@ on:
 
 jobs:
     mac_build:
-        runs-on: macos-11
+        runs-on: macOS-11
         name: macOS 11 Big Sur Build
         steps:
             - uses: actions/checkout@v2
