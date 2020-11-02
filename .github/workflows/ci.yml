@@ -13,30 +13,29 @@ jobs:
         uses: actions/checkout@v2
       - name: Pre-build setup
         run: |
+          set -e
           brew update
           brew install qt5
-          brew --cellar qt5
-          ls -lR `brew --cellar qt5`
           qmake -v
           clang -v
           gcc -v
       - name: Build
         run: |
-          export QTDIR=/usr/local/opt/qt5
+          export QTDIR=/usr/local/opt/qt
           export PATH=$QTDIR/bin:$PATH
           export VERSION=`cat Software/VERSION`
           cd Software
           ./update_locales.sh
           qmake -r
-#          make
-#       - name: Package DMG
-#         run: macdeployqt bin/Prismatik.app -dmg
-#       - name: Check DMG
-#         run: |
-#           set -e
-#           ls bin
-#           hdiutil attach bin/Prismatik.dmg
-#           ls /Volumes/bin:Prismatik/Prismatik.app
-#           otool -L /Volumes/bin:Prismatik/Prismatik.app/Contents/MacOS/Prismatik
-#           otool -L /Volumes/bin:Prismatik/Prismatik.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
-#           hdiutil detach /Volumes/bin:Prismatik
+          make
+      - name: Package DMG
+        run: macdeployqt bin/Prismatik.app -dmg
+      - name: Check DMG
+        run: |
+          set -e
+          ls bin
+          hdiutil attach bin/Prismatik.dmg
+          ls /Volumes/bin:Prismatik/Prismatik.app
+          otool -L /Volumes/bin:Prismatik/Prismatik.app/Contents/MacOS/Prismatik
+          otool -L /Volumes/bin:Prismatik/Prismatik.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
+          hdiutil detach /Volumes/bin:Prismatik
