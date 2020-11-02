@@ -35,8 +35,9 @@ jobs:
       - name: Check DMG
         run: |
           set -x
-          ls $BINDIR
-          hdiutil attach $BINDIR/Prismatik.dmg
+          cd $BINDIR
+          ls
+          hdiutil attach Prismatik.dmg
           ls /Volumes/bin:Prismatik/Prismatik.app
           otool -L /Volumes/bin:Prismatik/Prismatik.app/Contents/MacOS/Prismatik
           otool -L /Volumes/bin:Prismatik/Prismatik.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
