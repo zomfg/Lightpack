@@ -1,0 +1,31 @@
+name: CI Build
+
+on:
+    push:
+        branches: [ actions_tests ]
+
+    jobs:
+        mac_build:
+            runs-on: macos-11
+            name: macOS 11 Big Sur Build
+            steps:
+                - uses: actions/checkout@v2
+                - run: |
+                    brew update
+                    brew install qt5
+                    export QTDIR=/usr/local/opt/qt5
+                    export PATH=$QTDIR/bin:$PATH
+                    export VERSION=`cat Software/VERSION`
+                    qmake -v
+                    cd Software
+                    ./update_locales.sh
+                    qmake -r
+                    make
+                    macdeployqt bin/Prismatik.app -dmg
+                    ls bin
+                    hdiutil attach bin/Prismatik.dmg
+                    ls /Volumes/bin:Prismatik/Prismatik.app
+                    otool -L /Volumes/bin:Prismatik/Prismatik.app/Contents/MacOS/Prismatik
+                    otool -L /Volumes/bin:Prismatik/Prismatik.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
+                    hdiutil detach /Volumes/bin:Prismatik
+
