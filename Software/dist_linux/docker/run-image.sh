@@ -10,7 +10,7 @@ version=20.04
 pkgmgr=dpkg
 [ ! -z $3 ] && pkgmgr=$3
 
-docker run -it \
+docker run \
 	-v "$(pwd):/Lightpack" \
 	-v "$(pwd)/Software/dist_linux/docker/build.$pkgmgr:/build.sh" \
 	-v "/etc/localtime:/etc/localtime:ro" \
