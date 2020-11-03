@@ -110,7 +110,7 @@ jobs:
       - name: check openssl
 #         shell: bash
         run: |
-          ls -l 'C:\Program Files\'
+          ls -l 'C:\Program Files\OpenSSL\'
 #          find / -name '*OpenSSL*' -type d
 #          ls -l "/c/Program Files"
 #          ls -l "C:\Program Files"
