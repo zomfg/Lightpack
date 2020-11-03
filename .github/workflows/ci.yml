@@ -107,25 +107,27 @@ jobs:
     runs-on: windows-2019
     name: Windows 2019 Build
     steps:
-      - name: check openssl
-#         shell: bash
+      - name: Checkout Source
+        uses: actions/checkout@v2
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: 5.15.1
+      - name: Enable DEV CMD
+        uses: ilammy/msvc-dev-cmd@v1
+      - name: Build
+        shell: bash
         run: |
-          ls -l 'C:\Program Files\OpenSSL\'
-#          find / -name '*OpenSSL*' -type d
-#          ls -l "/c/Program Files"
-#          ls -l "C:\Program Files"
-#       - name: Checkout Source
-#         uses: actions/checkout@v2
-#       - name: Install Qt
-#         uses: jurplel/install-qt-action@v2
-#         with:
-#           version: 5.15.1
-#       - name: Enable DEV CMD
-#         uses: ilammy/msvc-dev-cmd@v1
-#       - name: Build
-#         shell: bash
-#         run: |
-#           echo "QTDIR=$Qt5_Dir" >> $GITHUB_ENV
-#           cd Software
-#           ./update_locales.sh
-#           ./scripts/win32/generate_sln.sh
+          echo "QTDIR=$Qt5_Dir" >> $GITHUB_ENV
+          env
+          cd Software
+          cat << EOF
+          win32: {
+            OPENSSL_DIR = "C:\\Program Files\\OpenSSL\\bin"
+            TARGET_ARCH = x86_64
+          }
+          EOF > build-vars.prf
+          cat build-vars.prf
+          ./update_locales.sh
+          ./scripts/win32/generate_sln.sh
+          "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Tools\VsDevCmd.bat"
