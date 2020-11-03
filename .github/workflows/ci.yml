@@ -113,6 +113,14 @@ jobs:
         uses: jurplel/install-qt-action@v2
         with:
           version: 5.15.1
+      - name: Download NightLightLibrary
+        uses: i3h/download-release-asset@v1
+        with:
+          owner: zomfg
+          repo: NightLightLibrary
+          tag: v1.3
+          file: NightLightLibrary-x64-1.3-win1909preview.zip
+          path: ${{ runner.temp }}\nlb
       - name: Enable DEV CMD
         uses: ilammy/msvc-dev-cmd@v1
       - name: Build
@@ -124,6 +132,8 @@ jobs:
           cat << EOF > build-vars.prf
           win32: {
             OPENSSL_DIR = "C:\\\\Program Files\\\\OpenSSL\\\\bin"
+            DEFINES += NIGHTLIGHT_SUPPORT
+            NIGHTLIGHT_DIR = "${{ runner.temp }}\\\\nlb"
             TARGET_ARCH = x86_64
           }
           EOF
