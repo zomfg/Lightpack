@@ -130,4 +130,4 @@ jobs:
           cat build-vars.prf
           ./update_locales.sh
           ./scripts/win32/generate_sln.sh
-          msbuild /p:Configuration=Release /p:Platform=x64
+          MSBuild.exe /p:Configuration=Release /p:Platform=x64
