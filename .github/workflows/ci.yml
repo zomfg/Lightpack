@@ -108,12 +108,12 @@ jobs:
     name: Windows 2019 Build
     steps:
       - name: check openssl
-        shell: bash
+#         shell: bash
         run: |
-          find / -name '*OpenSSL*' -type d
+          ls -l 'C:\Program Files\'
+#          find / -name '*OpenSSL*' -type d
 #          ls -l "/c/Program Files"
 #          ls -l "C:\Program Files"
-#          ls -l C:\\Program Files
 #       - name: Checkout Source
 #         uses: actions/checkout@v2
 #       - name: Install Qt
