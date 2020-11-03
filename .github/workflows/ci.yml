@@ -114,7 +114,7 @@ jobs:
         with:
           version: 5.15.1
       - name: Download NightLightLibrary
-        uses: i3h/download-release-asset@v1
+        uses: i3h/download-release-asset@v2
         with:
           owner: zomfg
           repo: NightLightLibrary
