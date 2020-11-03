@@ -130,4 +130,4 @@ jobs:
           cat build-vars.prf
           ./update_locales.sh
           ./scripts/win32/generate_sln.sh
-          "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Tools\VsDevCmd.bat"
+          msbuild /p:Configuration=Release /p:Platform=x64
