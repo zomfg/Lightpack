@@ -107,10 +107,6 @@ jobs:
     runs-on: windows-2019
     name: Windows 2019 Build
     steps:
-      - name: ls pfiles32
-        run: |
-          ls 'C:\Program Files (x86)\'
-          ls 'C:\Program Files (x86)\Inno Setup 6\'
       - name: Checkout Source
         uses: actions/checkout@v2
       - name: Install Qt
@@ -146,7 +142,8 @@ jobs:
           cp -r bin/platforms dist_windows/content/
           cp -r bin/styles dist_windows/content/
           cd dist_windows
-          echo '"C:\Program Files (x86)\Inno Setup 6\ISCC.exe"' script.iss > .stp.bat
+          grep -v UpdateElevate script.iss > script_noupdate.iss
+          echo '"C:\Program Files (x86)\Inno Setup 6\ISCC.exe"' script_noupdate.iss > .stp.bat
           ./.stp.bat
       - name: Check Package
         shell: bash
