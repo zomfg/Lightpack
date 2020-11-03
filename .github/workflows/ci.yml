@@ -121,12 +121,12 @@ jobs:
           echo "QTDIR=$Qt5_Dir" >> $GITHUB_ENV
           set -xe
           cd Software
-          cat << EOF
+          cat << EOF > build-vars.prf
           win32: {
             OPENSSL_DIR = "C:\\\\Program Files\\\\OpenSSL\\\\bin"
             TARGET_ARCH = x86_64
           }
-          EOF > build-vars.prf
+          EOF
           cat build-vars.prf
           ./update_locales.sh
           ./scripts/win32/generate_sln.sh
