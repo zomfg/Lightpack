@@ -116,10 +116,9 @@ jobs:
           tag: v1.3
           zipBall: NightLightLibrary-x64-1.3-win1909preview.zip
           out-file-path: nlb
-      - name: check NLB
-        run: |
-          ls
-          ls nlb
+      #- name: check NLB
+      - run: ls
+      - run: ls .\nlb
 #       - name: Install Qt
 #         uses: jurplel/install-qt-action@v2
 #         with:
