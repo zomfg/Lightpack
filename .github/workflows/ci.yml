@@ -8,6 +8,7 @@ on:
 
 jobs:
   mac_build:
+    if: ${{ false }}
     runs-on: macOS-11.0
     name: macOS 11 Big Sur Build
     env:
@@ -80,6 +81,7 @@ jobs:
           path: ${{ env.PKG_PATH }}
 
   ubuntu2010_build:
+    if: ${{ false }}
     runs-on: ubuntu-20.04
     name: Ubuntu 20.10 / dpkg Build
     steps:
@@ -100,6 +102,7 @@ jobs:
           name: ${{ env.PKG_NAME }}
           path: ${{ env.PKG_PATH }}
   ubuntu2004_build:
+    if: ${{ false }}
     runs-on: ubuntu-20.04
     name: Ubuntu 20.04 / dpkg Build
     steps:
@@ -120,6 +123,7 @@ jobs:
           name: ${{ env.PKG_NAME }}
           path: ${{ env.PKG_PATH }}
   ubuntu1804_build:
+    if: ${{ false }}
     runs-on: ubuntu-20.04
     name: Ubuntu 18.04 / dpkg Build
     steps:
@@ -140,6 +144,7 @@ jobs:
           name: ${{ env.PKG_NAME }}
           path: ${{ env.PKG_PATH }}
   debian106_build:
+    if: ${{ false }}
     runs-on: ubuntu-20.04
     name: Debian 10.6 / dpkg Build
     steps:
@@ -154,6 +159,29 @@ jobs:
           PKG_PATH=$(ls Software/dist_linux/prismatik*.deb)
           echo "PKG_PATH=$PKG_PATH" >> $GITHUB_ENV
           echo "PKG_NAME=$(basename $PKG_PATH | sed 's#amd64#debian106_amd64#')" >> $GITHUB_ENV
+      - name: Upload Package
+        uses: actions/upload-artifact@v2.2.0
+        with:
+          name: ${{ env.PKG_NAME }}
+          path: ${{ env.PKG_PATH }}
+  dpkg_build:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        os: [ 'ubuntu 20.10' 'ubuntu 20.04' 'ubuntu 18.04' 'debian 10.6' ]
+    name: ${{ matrix.os }} / dpkg Build
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2
+      - name: Image Build
+        run: ./Software/dist_linux/docker/build-image.sh ${{ matrix.os }} dpkg
+      - name: Build
+        run: ./Software/dist_linux/docker/run-image.sh ${{ matrix.os }} dpkg
+      - name: Check Package
+        run: |
+          PKG_PATH=$(ls Software/dist_linux/prismatik*.deb)
+          echo "PKG_PATH=$PKG_PATH" >> $GITHUB_ENV
+          echo "PKG_NAME=$(basename $PKG_PATH | sed 's#amd64#${{ join(matrix.os, '') }}_amd64#')" >> $GITHUB_ENV
       - name: Upload Package
         uses: actions/upload-artifact@v2.2.0
         with:
