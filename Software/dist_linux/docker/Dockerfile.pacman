@@ -23,5 +23,5 @@ RUN useradd -r -u 1000 -g builder builder
 RUN mkdir /Lightpack
 VOLUME ["/Lightpack", "/build.sh", "/etc/localtime"]
 
-USER builder
+#USER builder
 ENTRYPOINT /build.sh
