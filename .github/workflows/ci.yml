@@ -114,10 +114,9 @@ jobs:
         with:
           version: 5.15.1
       - name: Download NightLightLibrary
-        uses: i3h/download-release-asset@v2
+        uses: Legion2/download-release-action@v2
         with:
-          owner: zomfg
-          repo: NightLightLibrary
+          repository: zomfg/NightLightLibrary
           tag: v1.3
           file: NightLightLibrary-x64-1.3-win1909preview.zip
           path: ${{ runner.temp }}\nlb
