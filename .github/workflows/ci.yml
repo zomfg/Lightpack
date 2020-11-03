@@ -115,6 +115,7 @@ jobs:
       - name: Build
         shell: bash
         run: |
+          echo "QTDIR=$Qt5_DIR"
           echo "QTDIR=$Qt5_DIR" >> $GITHUB_ENV
           cd Software
           ./update_locales.sh

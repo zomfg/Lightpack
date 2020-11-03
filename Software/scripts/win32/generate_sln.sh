@@ -7,7 +7,7 @@ echo "================================================="
 echo ""
 
 
-$QTDIR/bin/qmake -recursive -tp vc Lightpack.pro
+qmake -recursive -tp vc Lightpack.pro
 
 # qmake only allows shared linkage of the msvcr* runtime (for reasons acceptable when using Qt in the projects)
 # for our lightweiht, non-qt components which we want to inject into other processes this is bad
