@@ -113,8 +113,9 @@ jobs:
         uses: jurplel/install-qt-action@v2
         with:
           version: 5.15.1
-      - name: Build
+      - name: Enable DEV CMD
         uses: ilammy/msvc-dev-cmd@v1
+      - name: Build
         shell: bash
         run: |
           echo "QTDIR=$Qt5_Dir" >> $GITHUB_ENV
