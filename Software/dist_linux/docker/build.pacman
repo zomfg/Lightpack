@@ -1,0 +1,9 @@
+#!/bin/sh
+set -xe
+
+lsb_release -a
+qmake -v
+gcc -v
+lscpu
+cd /Lightpack/Software/dist_linux
+./build-pacman.sh

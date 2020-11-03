@@ -1,0 +1,39 @@
+pkgname=prismatik-psieg-bin
+pkgver=5.11.2
+pkgrel=1
+pkgdesc="A controller for usb driven LED backlights (an unofficial fork)"
+arch=('x86_64')
+url="https://github.com/psieg/Lightpack"
+license=('GPL3')
+depends=('qt5-serialport' 'hicolor-icon-theme' __PULSEAUDIO_SUPPORT__)
+makedepends=('git' 'make' 'gcc')
+provides=('lightpack' 'prismatik' 'prismatik-bin' 'prismatik-git' 'prismatik-psieg' 'prismatik-psieg-git')
+conflicts=('lightpack' 'prismatik' 'prismatik-bin' 'prisamtik-git' 'prismatik-psieg' 'prismatik-psieg-git')
+changelog="../CHANGELOG"
+install=prismatik.install
+_pkgdir=../deb
+_srcdir=../..
+
+pkgver() {
+    cat ${_srcdir}/VERSION
+}
+
+build() {
+    cd ${_srcdir}
+    ((make clean && qmake -r) || qmake -r)
+    make
+}
+
+check() {
+    [ -f ${_srcdir}/bin/Prismatik ]
+}
+
+package() {
+    install -D -m644 ${_pkgdir}/etc/udev/rules.d/93-lightpack.rules ${pkgdir}/etc/udev/rules.d/93-lightpack.rules
+    install -D -m644 ${_pkgdir}/usr/share/applications/prismatik.desktop ${pkgdir}/usr/share/applications/prismatik.desktop
+    install -D -m644 ${_pkgdir}/usr/share/icons/hicolor/22x22/apps/prismatik-on.png ${pkgdir}/usr/share/icons/hicolor/22x22/apps/prismatik-on.png
+    install -D -m644 ${_pkgdir}/usr/share/icons/Prismatik.png ${pkgdir}/usr/share/icons/Prismatik.png
+    install -D -m644 ${_pkgdir}/usr/share/pixmaps/Prismatik.png ${pkgdir}/usr/share/pixmaps/Prismatik.png
+    install -D -m755 ${_srcdir}/bin/Prismatik ${pkgdir}/usr/bin/prismatik
+}
+

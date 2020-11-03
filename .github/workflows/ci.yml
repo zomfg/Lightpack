@@ -6,6 +6,7 @@ on:
 
 jobs:
   mac_build:
+    if: ${{ false }}
     runs-on: macOS-11.0
     name: macOS 11 Big Sur Build
     env:
@@ -53,3 +54,25 @@ jobs:
         with:
           name: Prismatik.dmg
           path: ${{ env.BINDIR }}/Prismatik.dmg
+
+  pacman_build:
+    runs-on: ubuntu-20.04
+    name: Arch Linux / pacman Build
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2
+      - name: Image Build
+        run: ./Software/dist_linux/docker/build-image.sh archlinux latest pacman
+      - name: Build
+        run: ./Software/dist_linux/docker/run-image.sh archlinux latest pacman
+      - name: Check Package
+        run: |
+          PKG_PATH=$(ls Software/dist_linux/prismatik*.pkg*)
+          namcap $PKG_PATH
+          echo "PKG_PATH=$PKG_PATH" >> $GITHUB_ENV
+          echo "PKG_NAME=$(basename $PKG_PATH)" >> $GITHUB_ENV
+      - name: Upload Package
+        uses: actions/upload-artifact@v2.2.0
+        with:
+          name: ${{ env.PKG_NAME }}
+          path: ${{ env.PKG_PATH }}
