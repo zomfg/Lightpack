@@ -114,10 +114,10 @@ jobs:
         with:
           version: 5.15.1
       - name: Build
+        uses: ilammy/msvc-dev-cmd@v1
         shell: bash
         run: |
-          echo "QTDIR=$Qt5_DIR"
-          echo "QTDIR=$Qt5_DIR" >> $GITHUB_ENV
+          echo "QTDIR=$Qt5_Dir" >> $GITHUB_ENV
           cd Software
           ./update_locales.sh
           ./scripts/win32/generate_sln.sh
