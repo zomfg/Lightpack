@@ -107,6 +107,10 @@ jobs:
     runs-on: windows-2019
     name: Windows 2019 Build
     steps:
+      - name: ls pfiles32
+        run: |
+          ls 'C:\Program Files (x86)\'
+          ls 'C:\Program Files (x86)\Inno Setup 6\'
       - name: Checkout Source
         uses: actions/checkout@v2
       - name: Install Qt
@@ -132,3 +136,26 @@ jobs:
           ./scripts/win32/generate_sln.sh
           echo "MSBuild.exe /p:Configuration=Release /p:Platform=x64" > .msb.bat
           ./.msb.bat
+      - name: Package
+        shell: bash
+        run: |
+          cd Software
+          set -xe
+          cp bin/*.dll dist_windows/content/
+          cp bin/*.exe dist_windows/content/
+          cp -r bin/platforms dist_windows/content/
+          cp -r bin/styles dist_windows/content/
+          cd dist_windows
+          echo '"C:\Program Files (x86)\Inno Setup 6\ISCC.exe"' script.iss > .stp.bat
+          ./.stp.bat
+      - name: Check Package
+        shell: bash
+        run: |
+          PKG_PATH=$(ls Software/dist_linux/Prismatik*.exe)
+          echo "PKG_PATH=$PKG_PATH" >> $GITHUB_ENV
+          echo "PKG_NAME=$(basename $PKG_PATH)" >> $GITHUB_ENV
+      - name: Upload Package
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.PKG_NAME }}
+          path: ${{ env.PKG_PATH }}
