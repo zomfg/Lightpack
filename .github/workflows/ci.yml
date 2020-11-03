@@ -79,92 +79,8 @@ jobs:
         with:
           name: ${{ env.PKG_NAME }}
           path: ${{ env.PKG_PATH }}
-
-  ubuntu2010_build:
-    if: ${{ false }}
-    runs-on: ubuntu-20.04
-    name: Ubuntu 20.10 / dpkg Build
-    steps:
-      - name: Checkout Source
-        uses: actions/checkout@v2
-      - name: Image Build
-        run: ./Software/dist_linux/docker/build-image.sh ubuntu 20.10 dpkg
-      - name: Build
-        run: ./Software/dist_linux/docker/run-image.sh ubuntu 20.10 dpkg
-      - name: Check Package
-        run: |
-          PKG_PATH=$(ls Software/dist_linux/prismatik*.deb)
-          echo "PKG_PATH=$PKG_PATH" >> $GITHUB_ENV
-          echo "PKG_NAME=$(basename $PKG_PATH | sed 's#amd64#ubuntu2010_amd64#')" >> $GITHUB_ENV
-      - name: Upload Package
-        uses: actions/upload-artifact@v2.2.0
-        with:
-          name: ${{ env.PKG_NAME }}
-          path: ${{ env.PKG_PATH }}
-  ubuntu2004_build:
-    if: ${{ false }}
-    runs-on: ubuntu-20.04
-    name: Ubuntu 20.04 / dpkg Build
-    steps:
-      - name: Checkout Source
-        uses: actions/checkout@v2
-      - name: Image Build
-        run: ./Software/dist_linux/docker/build-image.sh ubuntu 20.04 dpkg
-      - name: Build
-        run: ./Software/dist_linux/docker/run-image.sh ubuntu 20.04 dpkg
-      - name: Check Package
-        run: |
-          PKG_PATH=$(ls Software/dist_linux/prismatik*.deb)
-          echo "PKG_PATH=$PKG_PATH" >> $GITHUB_ENV
-          echo "PKG_NAME=$(basename $PKG_PATH | sed 's#amd64#ubuntu2004_amd64#')" >> $GITHUB_ENV
-      - name: Upload Package
-        uses: actions/upload-artifact@v2.2.0
-        with:
-          name: ${{ env.PKG_NAME }}
-          path: ${{ env.PKG_PATH }}
-  ubuntu1804_build:
-    if: ${{ false }}
-    runs-on: ubuntu-20.04
-    name: Ubuntu 18.04 / dpkg Build
-    steps:
-      - name: Checkout Source
-        uses: actions/checkout@v2
-      - name: Image Build
-        run: ./Software/dist_linux/docker/build-image.sh ubuntu 18.04 dpkg
-      - name: Build
-        run: ./Software/dist_linux/docker/run-image.sh ubuntu 18.04 dpkg
-      - name: Check Package
-        run: |
-          PKG_PATH=$(ls Software/dist_linux/prismatik*.deb)
-          echo "PKG_PATH=$PKG_PATH" >> $GITHUB_ENV
-          echo "PKG_NAME=$(basename $PKG_PATH | sed 's#amd64#ubuntu1804_amd64#')" >> $GITHUB_ENV
-      - name: Upload Package
-        uses: actions/upload-artifact@v2.2.0
-        with:
-          name: ${{ env.PKG_NAME }}
-          path: ${{ env.PKG_PATH }}
-  debian106_build:
-    if: ${{ false }}
-    runs-on: ubuntu-20.04
-    name: Debian 10.6 / dpkg Build
-    steps:
-      - name: Checkout Source
-        uses: actions/checkout@v2
-      - name: Image Build
-        run: ./Software/dist_linux/docker/build-image.sh debian 10.6 dpkg
-      - name: Build
-        run: ./Software/dist_linux/docker/run-image.sh debian 10.6 dpkg
-      - name: Check Package
-        run: |
-          PKG_PATH=$(ls Software/dist_linux/prismatik*.deb)
-          echo "PKG_PATH=$PKG_PATH" >> $GITHUB_ENV
-          echo "PKG_NAME=$(basename $PKG_PATH | sed 's#amd64#debian106_amd64#')" >> $GITHUB_ENV
-      - name: Upload Package
-        uses: actions/upload-artifact@v2.2.0
-        with:
-          name: ${{ env.PKG_NAME }}
-          path: ${{ env.PKG_PATH }}
   dpkg_build:
+    if: ${{ false }}
     runs-on: ubuntu-20.04
     strategy:
       matrix:
@@ -181,9 +97,17 @@ jobs:
         run: |
           PKG_PATH=$(ls Software/dist_linux/prismatik*.deb)
           echo "PKG_PATH=$PKG_PATH" >> $GITHUB_ENV
-          echo "PKG_NAME=$(basename $PKG_PATH | sed 's#amd64#${{ join(matrix.os, '') }}_amd64#')" >> $GITHUB_ENV
+          echo "PKG_NAME=$(basename $PKG_PATH | sed 's#amd64#${{ matrix.os }}_amd64#; s# ##')" >> $GITHUB_ENV
       - name: Upload Package
         uses: actions/upload-artifact@v2.2.0
         with:
           name: ${{ env.PKG_NAME }}
           path: ${{ env.PKG_PATH }}
+  win_build:
+    runs-on: windows-2019
+    name: Windows 2019 Build
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
