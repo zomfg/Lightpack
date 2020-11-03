@@ -148,7 +148,7 @@ jobs:
       - name: Check Package
         shell: bash
         run: |
-          PKG_PATH=$(ls Software/dist_linux/Prismatik*.exe)
+          PKG_PATH=$(ls Software/dist_linux/Output/Prismatik*.exe)
           echo "PKG_PATH=$PKG_PATH" >> $GITHUB_ENV
           echo "PKG_NAME=$(basename $PKG_PATH)" >> $GITHUB_ENV
       - name: Upload Package
