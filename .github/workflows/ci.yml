@@ -142,7 +142,7 @@ jobs:
           cp -r bin/platforms dist_windows/content/
           cp -r bin/styles dist_windows/content/
           cd dist_windows
-          grep -v UpdateElevate script.iss > script_noupdate.iss
+          grep -vE '(UpdateElevate|bass)' script.iss > script_noupdate_nobass.iss
           echo '"C:\Program Files (x86)\Inno Setup 6\ISCC.exe"' script_noupdate.iss > .stp.bat
           ./.stp.bat
       - name: Check Package
