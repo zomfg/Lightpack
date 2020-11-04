@@ -138,10 +138,8 @@ jobs:
           fileName: NightLightLibrary-x64-1.3-win1909preview.zip
           out-file-path: ${{ env.NLLDIR }}
       - name: Unzip NightLightLibrary
-        run: |
-          set -xe
-          cd "$NLLDIR"
-          unzip "${{ steps.dl-nll.with.fileName }}"
+        working-directory: ${{ env.NLLDIR }}
+        run: unzip "${{ steps.dl-nll.with.fileName }}"
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
@@ -149,9 +147,9 @@ jobs:
       - name: Enable DEV env
         uses: ilammy/msvc-dev-cmd@v1
       - name: Build
+        working-directory: Software
         run: |
           set -xe
-          cd Software
           echo "QTDIR=$Qt5_Dir" >> $GITHUB_ENV
           cat << EOF > build-vars.prf
           win32: {
@@ -170,9 +168,9 @@ jobs:
           echo "MSBuild.exe /p:Configuration=Release /p:Platform=x64" > _msb.bat
           ./_msb.bat
       - name: Package
+        working-directory: Software
         run: |
           set -xe
-          cd Software
           cp bin/*.dll dist_windows/content/
           cp bin/*.exe dist_windows/content/
           cp -r bin/platforms dist_windows/content/
