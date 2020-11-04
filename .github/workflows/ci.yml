@@ -176,10 +176,8 @@ jobs:
           cp -r bin/platforms dist_windows/content/
           cp -r bin/styles dist_windows/content/
           cd dist_windows
-          grep -vF UpdateElevate script.iss > ${{ runner.temp }}/script_noupdate.iss
-          "C:/Program Files (x86)/Inno Setup 6/ISCC.exe"' ${{ runner.temp }}/script_noupdate.iss
-          # echo '"C:\Program Files (x86)\Inno Setup 6\ISCC.exe"' ${{ runner.temp }}/script_noupdate.iss > .stp.bat
-          # ./.stp.bat
+          grep -vF UpdateElevate script.iss > _script_noupdate.iss
+          "C:/Program Files (x86)/Inno Setup 6/ISCC.exe"' _script_noupdate.iss
       - name: Check Package
         run: |
           set -xe
