@@ -139,8 +139,9 @@ jobs:
           out-file-path: ${{ env.NLLDIR }}
       - name: Unzip NightLightLibrary
         run: |
-          cd $NLLDIR
-          unzip ${{ steps.dl-nll.with.fileName }}
+          set -xe
+          cd "$NLLDIR"
+          unzip "${{ steps.dl-nll.with.fileName }}"
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
