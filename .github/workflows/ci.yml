@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Pre-build setup
         run: |
-          set -x
+          set -xe
           brew update
           brew install qt5
           $QTDIR/bin/qmake -v
@@ -28,6 +28,7 @@ jobs:
           sysctl machdep.cpu
       - name: Build
         run: |
+          set -xe
           export PATH=$QTDIR/bin:$PATH
           export VERSION=`cat Software/VERSION`
           cd Software
@@ -37,11 +38,11 @@ jobs:
       - name: Package DMG
         run: $QTDIR/bin/macdeployqt $BINDIR/Prismatik.app -dmg
       - name: Check DMG
+        working-directory: ${{ env.BINDIR }}
         env:
           ATTACHOUT: ${{ runner.temp }}/attach
         run: |
-          set -x
-          cd $BINDIR
+          set -xe
           ls
           hdiutil attach Prismatik.dmg > $ATTACHOUT
           cat $ATTACHOUT
@@ -70,6 +71,7 @@ jobs:
         run: ./Software/dist_linux/docker/run-image.sh archlinux latest pacman
       - name: Check Package
         run: |
+          set -xe
           PKG_PATH=$(ls Software/dist_linux/prismatik*.pkg*)
           namcap $PKG_PATH
           echo "PKG_PATH=$PKG_PATH" >> $GITHUB_ENV
@@ -95,6 +97,7 @@ jobs:
         run: ./Software/dist_linux/docker/run-image.sh ${{ matrix.os }} dpkg
       - name: Check Package
         run: |
+          set -xe
           PKG_PATH=$(ls Software/dist_linux/prismatik*.deb)
           echo "PKG_PATH=$PKG_PATH" >> $GITHUB_ENV
           echo "PKG_NAME=$(basename $PKG_PATH | sed 's#amd64#${{ matrix.os }}_amd64#; s# ##')" >> $GITHUB_ENV
@@ -177,7 +180,7 @@ jobs:
           cp -r bin/styles dist_windows/content/
           cd dist_windows
           grep -vF UpdateElevate script.iss > _script_noupdate.iss
-          "C:/Program Files (x86)/Inno Setup 6/ISCC.exe"' _script_noupdate.iss
+          "C:/Program Files (x86)/Inno Setup 6/ISCC.exe" _script_noupdate.iss
       - name: Check Package
         run: |
           set -xe
