@@ -15,58 +15,57 @@ jobs:
       QTDIR: /usr/local/opt/qt
       BINDIR: Software/bin
     steps:
-      - name: check xcode
+      - name: Select Latest Xcode
         run: |
           set -xe
           sw_vers
-          uname -a
-          xcode-select -v
+          ls -d /Applications/Xcode*.app
+          xcode-select --switch `ls -d /Applications/Xcode*.app | sort -Vr | head -n1`
           xcode-select -p
           xcodebuild -version
           xcodebuild -showsdks
-          ls -l /Applications/
-      # - name: Checkout Source
-      #   uses: actions/checkout@v2
-      # - name: Pre-build setup
-      #   run: |
-      #     set -xe
-      #     brew update
-      #     brew install qt5
-      #     $QTDIR/bin/qmake -v
-      #     clang -v
-      #     gcc -v
-      #     sysctl machdep.cpu
-      # - name: Build
-      #   run: |
-      #     set -xe
-      #     export PATH=$QTDIR/bin:$PATH
-      #     export VERSION=`cat Software/VERSION`
-      #     cd Software
-      #     ./update_locales.sh
-      #     qmake -r
-      #     make
-      # - name: Package DMG
-      #   run: $QTDIR/bin/macdeployqt $BINDIR/Prismatik.app -dmg
-      # - name: Check DMG
-      #   working-directory: ${{ env.BINDIR }}
-      #   env:
-      #     ATTACHOUT: ${{ runner.temp }}/attach
-      #   run: |
-      #     set -xe
-      #     ls
-      #     hdiutil attach Prismatik.dmg > $ATTACHOUT
-      #     cat $ATTACHOUT
-      #     VOLUME=`cat $ATTACHOUT | grep -oE '/Volumes/[^[:space:]]+'`
-      #     [ -e "$VOLUME" ]
-      #     ls $VOLUME/Prismatik.app
-      #     otool -L $VOLUME/Prismatik.app/Contents/MacOS/Prismatik
-      #     otool -L $VOLUME/Prismatik.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
-      #     hdiutil detach $VOLUME
-      # - name: Upload DMG
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: Prismatik.dmg
-      #     path: ${{ env.BINDIR }}/Prismatik.dmg
+      - name: Checkout Source
+        uses: actions/checkout@v2
+      - name: Pre-build setup
+        run: |
+          set -xe
+          brew update
+          brew install qt5
+          $QTDIR/bin/qmake -v
+          clang -v
+          gcc -v
+          sysctl machdep.cpu
+      - name: Build
+        run: |
+          set -xe
+          export PATH=$QTDIR/bin:$PATH
+          export VERSION=`cat Software/VERSION`
+          cd Software
+          ./update_locales.sh
+          qmake -r
+          make
+      - name: Package DMG
+        run: $QTDIR/bin/macdeployqt $BINDIR/Prismatik.app -dmg
+      - name: Check DMG
+        working-directory: ${{ env.BINDIR }}
+        env:
+          ATTACHOUT: ${{ runner.temp }}/attach
+        run: |
+          set -xe
+          ls
+          hdiutil attach Prismatik.dmg > $ATTACHOUT
+          cat $ATTACHOUT
+          VOLUME=`cat $ATTACHOUT | grep -oE '/Volumes/[^[:space:]]+'`
+          [ -e "$VOLUME" ]
+          ls $VOLUME/Prismatik.app
+          otool -L $VOLUME/Prismatik.app/Contents/MacOS/Prismatik
+          otool -L $VOLUME/Prismatik.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
+          hdiutil detach $VOLUME
+      - name: Upload DMG
+        uses: actions/upload-artifact@v2
+        with:
+          name: Prismatik.dmg
+          path: ${{ env.BINDIR }}/Prismatik.dmg
 
 
 
@@ -132,7 +131,7 @@ jobs:
 
 
   win_build:
-    # if: ${{ false }}
+    if: ${{ false }}
     runs-on: windows-2019
     name: Windows 2019 Build
     defaults:
