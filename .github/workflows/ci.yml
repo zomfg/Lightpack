@@ -20,7 +20,7 @@ jobs:
           set -xe
           sw_vers
           ls -d /Applications/Xcode*.app
-          xcode-select --switch `ls -d /Applications/Xcode*.app | sort -Vr | head -n1`
+          sudo xcode-select --switch `ls -d /Applications/Xcode*.app | sort -Vr | head -n1`
           xcode-select -p
           xcodebuild -version
           xcodebuild -showsdks
