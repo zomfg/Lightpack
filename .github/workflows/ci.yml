@@ -8,55 +8,70 @@ on:
 
 jobs:
   mac_build:
-#     if: ${{ false }}
+    if: ${{ false }}
     runs-on: macOS-11.0
     name: macOS 11 Big Sur Build
     env:
       QTDIR: /usr/local/opt/qt
       BINDIR: Software/bin
     steps:
-      - name: Checkout Source
-        uses: actions/checkout@v2
-      - name: Pre-build setup
+      - name: check xcode
         run: |
           set -xe
-          brew update
-          brew install qt5
-          $QTDIR/bin/qmake -v
-          clang -v
-          gcc -v
-          sysctl machdep.cpu
-      - name: Build
-        run: |
-          set -xe
-          export PATH=$QTDIR/bin:$PATH
-          export VERSION=`cat Software/VERSION`
-          cd Software
-          ./update_locales.sh
-          qmake -r
-          make
-      - name: Package DMG
-        run: $QTDIR/bin/macdeployqt $BINDIR/Prismatik.app -dmg
-      - name: Check DMG
-        working-directory: ${{ env.BINDIR }}
-        env:
-          ATTACHOUT: ${{ runner.temp }}/attach
-        run: |
-          set -xe
-          ls
-          hdiutil attach Prismatik.dmg > $ATTACHOUT
-          cat $ATTACHOUT
-          VOLUME=`cat $ATTACHOUT | grep -oE '/Volumes/[^[:space:]]+'`
-          [ -e "$VOLUME" ]
-          ls $VOLUME/Prismatik.app
-          otool -L $VOLUME/Prismatik.app/Contents/MacOS/Prismatik
-          otool -L $VOLUME/Prismatik.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
-          hdiutil detach $VOLUME
-      - name: Upload DMG
-        uses: actions/upload-artifact@v2
-        with:
-          name: Prismatik.dmg
-          path: ${{ env.BINDIR }}/Prismatik.dmg
+          sw_vers
+          uname -a
+          xcode-select -v
+          xcode-select -p
+          xcodebuild -version
+          xcodebuild -showsdks
+          ls -l /Applications/
+      # - name: Checkout Source
+      #   uses: actions/checkout@v2
+      # - name: Pre-build setup
+      #   run: |
+      #     set -xe
+      #     brew update
+      #     brew install qt5
+      #     $QTDIR/bin/qmake -v
+      #     clang -v
+      #     gcc -v
+      #     sysctl machdep.cpu
+      # - name: Build
+      #   run: |
+      #     set -xe
+      #     export PATH=$QTDIR/bin:$PATH
+      #     export VERSION=`cat Software/VERSION`
+      #     cd Software
+      #     ./update_locales.sh
+      #     qmake -r
+      #     make
+      # - name: Package DMG
+      #   run: $QTDIR/bin/macdeployqt $BINDIR/Prismatik.app -dmg
+      # - name: Check DMG
+      #   working-directory: ${{ env.BINDIR }}
+      #   env:
+      #     ATTACHOUT: ${{ runner.temp }}/attach
+      #   run: |
+      #     set -xe
+      #     ls
+      #     hdiutil attach Prismatik.dmg > $ATTACHOUT
+      #     cat $ATTACHOUT
+      #     VOLUME=`cat $ATTACHOUT | grep -oE '/Volumes/[^[:space:]]+'`
+      #     [ -e "$VOLUME" ]
+      #     ls $VOLUME/Prismatik.app
+      #     otool -L $VOLUME/Prismatik.app/Contents/MacOS/Prismatik
+      #     otool -L $VOLUME/Prismatik.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
+      #     hdiutil detach $VOLUME
+      # - name: Upload DMG
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: Prismatik.dmg
+      #     path: ${{ env.BINDIR }}/Prismatik.dmg
+
+
+
+
+
 
   pacman_build:
     if: ${{ false }}
@@ -81,8 +96,12 @@ jobs:
         with:
           name: ${{ env.PKG_NAME }}
           path: ${{ env.PKG_PATH }}
+
+
+
+
   dpkg_build:
-#     if: ${{ false }}
+    if: ${{ false }}
     runs-on: ubuntu-20.04
     strategy:
       matrix:
@@ -106,6 +125,12 @@ jobs:
         with:
           name: ${{ env.PKG_NAME }}
           path: ${{ env.PKG_PATH }}
+
+
+
+
+
+
   win_build:
     # if: ${{ false }}
     runs-on: windows-2019
@@ -174,10 +199,7 @@ jobs:
         working-directory: Software
         run: |
           set -xe
-          cp bin/*.dll dist_windows/content/
-          cp bin/*.exe dist_windows/content/
-          cp -r bin/platforms dist_windows/content/
-          cp -r bin/styles dist_windows/content/
+          grep -vF UpdateElevate scripts/win32/prepare_installer.sh | sh -sex
           cd dist_windows
           grep -vF UpdateElevate script.iss > _script_noupdate.iss
           "C:/Program Files (x86)/Inno Setup 6/ISCC.exe" _script_noupdate.iss
