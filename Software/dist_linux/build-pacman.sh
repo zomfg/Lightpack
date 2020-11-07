@@ -14,4 +14,5 @@ cd -
 
 sed 's#__PULSEAUDIO_SUPPORT__#'"$PULSEAUDIO_SUPPORT"'#' PKGBUILD.template > PKGBUILD
 makepkg -cf
+namcap prismatik*.pkg*
 rm PKGBUILD
