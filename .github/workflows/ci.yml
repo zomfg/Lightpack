@@ -8,7 +8,7 @@ on:
 
 jobs:
   mac_build:
-    # if: ${{ false }}
+    if: ${{ false }}
     runs-on: macOS-11.0
     name: macOS 11 Big Sur Build
     env:
@@ -97,7 +97,34 @@ jobs:
           path: ${{ env.PKG_PATH }}
 
 
-
+  flatpack_build:
+    # if: ${{ false }}
+    runs-on: ubuntu-20.04
+    name: flatpack Build
+    steps:
+      - name: test useradd
+        run: |
+          set -xe
+          id
+          groupadd -r -g 1000 builder
+          useradd -r -u 1000 -g builder builder
+          id builder
+      - name: Checkout Source
+        uses: actions/checkout@v2
+      - name: chown
+        run: |
+          set -xe
+          ls -l
+          chown -R builder:builder .
+          ls -l
+      - name: touch
+        run: |
+          set -xe
+          id
+          sudo -u builder id
+          ls -l
+          sudo -u builder touch ITSAME
+          ls -l
 
   dpkg_build:
     if: ${{ false }}
