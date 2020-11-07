@@ -73,7 +73,7 @@ jobs:
 
 
   pacman_build:
-    if: ${{ false }}
+    # if: ${{ false }}
     runs-on: ubuntu-20.04
     name: Arch Linux / pacman Build
     steps:
@@ -98,7 +98,7 @@ jobs:
 
 
   flatpack_build:
-    # if: ${{ false }}
+    if: ${{ false }}
     runs-on: ubuntu-20.04
     name: flatpack Build
     steps:
@@ -127,11 +127,12 @@ jobs:
           ls -l
 
   dpkg_build:
-    if: ${{ false }}
+    # if: ${{ false }}
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        os: [ 'ubuntu 20.10', 'ubuntu 20.04', 'ubuntu 18.04', 'debian 10.6' ]
+        os: [ 'ubuntu 20.10' ]
+        #os: [ 'ubuntu 20.10', 'ubuntu 20.04', 'ubuntu 18.04', 'debian 10.6' ]
     name: ${{ matrix.os }} / dpkg Build
     steps:
       - name: Checkout Source

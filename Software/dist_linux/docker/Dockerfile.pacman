@@ -17,11 +17,6 @@ RUN pacman -Syu --noconfirm && pacman -S --noconfirm \
     && (yes | pacman -Scc) \
     && rm -rf /etc/localtime
 
-RUN groupadd -r -g 1000 builder
-RUN useradd -r -u 1000 -g builder builder
-
-RUN mkdir /Lightpack
 VOLUME ["/Lightpack", "/build.sh", "/etc/localtime"]
 
-#USER builder
 ENTRYPOINT /build.sh

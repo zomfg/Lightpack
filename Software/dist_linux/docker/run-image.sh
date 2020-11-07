@@ -14,5 +14,6 @@ docker run \
 	-v "$(pwd):/Lightpack" \
 	-v "$(pwd)/Software/dist_linux/docker/build.$pkgmgr:/build.sh" \
 	-v "/etc/localtime:/etc/localtime:ro" \
+	--user="$(id -u):$(id -g)" \
 	--rm \
 	--name "builder" "prismatik/$os:$version"

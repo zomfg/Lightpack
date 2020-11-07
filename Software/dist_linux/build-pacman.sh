@@ -1,5 +1,5 @@
 #!/bin/sh
-
+set -xe
 
 # TODO: better way of dynamically adding build-vars deps?
 PULSEAUDIO_SUPPORT=
