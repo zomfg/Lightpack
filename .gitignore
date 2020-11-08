@@ -13,7 +13,10 @@ Software/[^.]+.pro.user
 .metadata/
 Software/apiexamples/.+\.pyc
 Software/deb/DEBIAN/md5sums
-Software/[^/\\]+\.deb
+Software/dist_linux/*.deb
+Software/dist_linux/*.pkg\.tar\.*
+Software/dist_linux/prismatik*.flatpak
+Software/dist_linux/.flatpak-builder
 
 syntax: regexp
 Software/dist_windows/Output/
