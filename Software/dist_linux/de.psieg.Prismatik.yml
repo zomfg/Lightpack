@@ -1,0 +1,63 @@
+app-id: de.psieg.Prismatik
+runtime: org.kde.Platform
+runtime-version: '5.15'
+sdk: org.kde.Sdk
+finish-args:
+  # X11 + XShm access
+  - --share=ipc
+  - --socket=x11
+
+  - --share=network
+  - --socket=pulseaudio
+  - --filesystem=~/.Prismatik:rw
+  - --device=all
+
+  # needed for tray
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.kde.*
+command: prismatik
+modules:
+  - name: libusb
+    buildsystem: autotools
+    config-opts:
+      - --enable-udev
+    sources:
+      - type: git
+        url: https://github.com/libusb/libusb
+  - name: fftw3f
+    buildsystem: autotools
+    config-opts:
+      - --enable-float
+      - --enable-shared
+      # - --enable-avx2
+      - --enable-sse2
+    sources:
+      - type: archive
+        url: http://fftw.org/fftw-3.3.8.tar.gz
+        sha256: 6113262f6e92c5bd474f2875fa1b01054c4ad5040f6b0da7c03c98821d9ae303
+  - name: prismatik
+    buildsystem: simple
+    build-commands:
+      - qmake -v
+      # - Software/dist_linux/docker/build.flatpak
+      - cd Software && qmake -r
+      # - cd Software && make clean
+      # - cd Software && qmake -r
+      - cd Software && make -j2
+      # $FLATPAK_BUILDER_N_JOBS
+      - sed 's#Exec=prismatik#Exec=de.psieg.Prismatik#; s#Icon=Prismatik.png#Icon=de.psieg.Prismatik.png#' Software/dist_linux/deb/usr/share/applications/prismatik.desktop > _prismatik.desktop
+      - install -Dm644 _prismatik.desktop /app/usr/share/applications/de.psieg.Prismatik.desktop
+      - install -Dm644 Software/dist_linux/deb/etc/udev/rules.d/93-lightpack.rules /app/etc/udev/rules.d/93-lightpack.rules
+      - install -Dm644 Software/dist_linux/deb/usr/share/icons/hicolor/22x22/apps/prismatik-on.png /app/usr/share/icons/hicolor/22x22/apps/de.psieg.Prismatik.png
+      - install -Dm644 Software/dist_linux/deb/usr/share/icons/Prismatik.png /app/usr/share/icons/de.psieg.Prismatik.png
+      - install -Dm644 Software/dist_linux/deb/usr/share/pixmaps/Prismatik.png /app/usr/share/pixmaps/de.psieg.Prismatik.png
+      - install -Dm755 Software/bin/Prismatik /app/bin/prismatik
+    sources:
+      - type: dir
+        path: ../..
+
+
+
+ #I use ansible, a hosts file, and then copy the ssh keypairs to the "master/parent" ansible lives on. You make a playbook. you run the playbook
+ #clients need python

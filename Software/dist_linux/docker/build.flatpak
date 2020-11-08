@@ -1,0 +1,11 @@
+#!/bin/sh
+set -xe
+
+cd Software
+qmake -r
+make clean
+qmake -r
+# ((make clean && qmake -r) || qmake -r)
+[ -z "$FLATPAK_BUILDER_N_JOBS" ] && FLATPAK_BUILDER_N_JOBS=2
+FLATPAK_BUILDER_N_JOBS=3
+make -j"$FLATPAK_BUILDER_N_JOBS"

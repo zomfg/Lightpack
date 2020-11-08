@@ -73,7 +73,7 @@ jobs:
 
 
   pacman_build:
-    # if: ${{ false }}
+    if: ${{ false }}
     runs-on: ubuntu-20.04
     name: Arch Linux / pacman Build
     steps:
@@ -98,36 +98,31 @@ jobs:
 
 
   flatpack_build:
-    if: ${{ false }}
+    # if: ${{ false }}
     runs-on: ubuntu-20.04
     name: flatpack Build
     steps:
-      - name: test useradd
+      - name: Install Flatpak
         run: |
           set -xe
-          id
-          groupadd -r -g 1000 builder
-          useradd -r -u 1000 -g builder builder
-          id builder
+          sudo apt update
+          sudo apt dist-update
+          sudo apt install flatpak flatpak-builder
       - name: Checkout Source
         uses: actions/checkout@v2
-      - name: chown
+      - name: Build
         run: |
-          set -xe
-          ls -l
-          chown -R builder:builder .
-          ls -l
-      - name: touch
-        run: |
-          set -xe
-          id
-          sudo -u builder id
-          ls -l
-          sudo -u builder touch ITSAME
-          ls -l
+          ./Software/dist_linux/build-flatpak.sh
+          echo "PKG_PATH=./prismatik.flatpak" >> $GITHUB_ENV
+          echo "PKG_NAME=$(basename $PKG_PATH)" >> $GITHUB_ENV
+      - name: Upload Package
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.PKG_NAME }}
+          path: ${{ env.PKG_PATH }}
 
   dpkg_build:
-    # if: ${{ false }}
+    if: ${{ false }}
     runs-on: ubuntu-20.04
     strategy:
       matrix:
