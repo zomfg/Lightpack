@@ -46,7 +46,7 @@ modules:
       # - cd Software && qmake -r
       - cd Software && make -j2
       # $FLATPAK_BUILDER_N_JOBS
-      - sed 's#Exec=prismatik#Exec=de.psieg.Prismatik#; s#Icon=Prismatik.png#Icon=de.psieg.Prismatik.png#' Software/dist_linux/deb/usr/share/applications/prismatik.desktop > _prismatik.desktop
+      - sed -E 's#(Exec|Icon)=.+#\1=de.psieg.Prismatik#' Software/dist_linux/deb/usr/share/applications/prismatik.desktop > _prismatik.desktop
       - install -Dm644 _prismatik.desktop /app/usr/share/applications/de.psieg.Prismatik.desktop
       - install -Dm644 Software/dist_linux/deb/etc/udev/rules.d/93-lightpack.rules /app/etc/udev/rules.d/93-lightpack.rules
       - install -Dm644 Software/dist_linux/deb/usr/share/icons/hicolor/22x22/apps/prismatik-on.png /app/usr/share/icons/hicolor/22x22/apps/de.psieg.Prismatik.png
