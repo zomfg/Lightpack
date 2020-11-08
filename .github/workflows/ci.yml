@@ -111,9 +111,12 @@ jobs:
       - name: Checkout Source
         uses: actions/checkout@v2
       - name: Build
+        working-directory: Software/dist_linux
+        run: ./build-flatpak.sh
+      - name: Check Package
         run: |
-          ./Software/dist_linux/build-flatpak.sh
-          PKG_PATH=$(ls prismatik*.flatpak)
+          set -xe
+          PKG_PATH=$(ls Software/dist_linux/prismatik*.flatpak)
           echo "PKG_PATH=$PKG_PATH" >> $GITHUB_ENV
           echo "PKG_NAME=$(basename $PKG_PATH)" >> $GITHUB_ENV
       - name: Upload Package
