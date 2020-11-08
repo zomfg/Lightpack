@@ -106,7 +106,6 @@ jobs:
         run: |
           set -xe
           sudo apt update
-          # sudo apt dist-upgrade
           sudo apt install flatpak flatpak-builder
           flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
       - name: Checkout Source
