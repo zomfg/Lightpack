@@ -106,7 +106,7 @@ jobs:
         run: |
           set -xe
           sudo apt update
-          sudo apt dist-update
+          sudo apt dist-upgrade
           sudo apt install flatpak flatpak-builder
       - name: Checkout Source
         uses: actions/checkout@v2
