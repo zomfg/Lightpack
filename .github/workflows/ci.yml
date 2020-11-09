@@ -73,20 +73,19 @@ jobs:
 
 
   pacman_build:
-    if: ${{ false }}
+    # if: ${{ false }}
     runs-on: ubuntu-20.04
     name: Arch Linux / pacman Build
     steps:
       - name: Checkout Source
         uses: actions/checkout@v2
-      - name: Image Build
-        run: ./Software/dist_linux/docker/build-image.sh archlinux latest pacman
       - name: Build
-        run: ./Software/dist_linux/docker/run-image.sh archlinux latest pacman
+        working-directory: Software/dist_linux
+        run: ./build-in-docker.sh pacman archlinux latest
       - name: Check Package
         run: |
           set -xe
-          PKG_PATH=$(ls Software/dist_linux/prismatik*.pkg*)
+          PKG_PATH=$(ls Software/dist_linux/pacman/prismatik*.pkg.tar*)
           # namcap $PKG_PATH
           echo "PKG_PATH=$PKG_PATH" >> $GITHUB_ENV
           echo "PKG_NAME=$(basename $PKG_PATH)" >> $GITHUB_ENV
@@ -98,7 +97,7 @@ jobs:
 
 
   flatpack_build:
-    # if: ${{ false }}
+    if: ${{ false }}
     runs-on: ubuntu-20.04
     name: flatpack Build
     steps:
@@ -112,7 +111,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Build
         working-directory: Software/dist_linux/flatpak
-        run: ./build-native.sh
+        run: ./build.sh
       - name: Check Package
         run: |
           set -xe
