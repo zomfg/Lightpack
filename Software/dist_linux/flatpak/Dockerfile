@@ -5,7 +5,6 @@ RUN pacman -Syu --noconfirm && pacman -S --noconfirm \
     lsb-release \
     flatpak \
     flatpak-builder \
-    && flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo \
     && (yes | pacman -Scc) \
     && rm -rf /etc/localtime
 
