@@ -35,6 +35,6 @@ package() {
     do
         install -Dm644 "$file" `echo "$file" | sed 's#'"${_pkgdir}"'#'"${pkgdir}"'#'`
     done
-   install -D -m755 ${_srcdir}/bin/Prismatik ${pkgdir}/usr/bin/prismatik
+   install -D -m755 -s ${_srcdir}/bin/Prismatik ${pkgdir}/usr/bin/prismatik
 }
 

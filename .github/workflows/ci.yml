@@ -73,7 +73,7 @@ jobs:
 
 
   pacman_build:
-    # if: ${{ false }}
+    if: ${{ false }}
     runs-on: ubuntu-20.04
     name: Arch Linux / pacman Build
     steps:
@@ -125,7 +125,7 @@ jobs:
           path: ${{ env.PKG_PATH }}
 
   dpkg_build:
-    if: ${{ false }}
+    # if: ${{ false }}
     runs-on: ubuntu-20.04
     strategy:
       matrix:
@@ -135,14 +135,13 @@ jobs:
     steps:
       - name: Checkout Source
         uses: actions/checkout@v2
-      - name: Image Build
-        run: ./Software/dist_linux/docker/build-image.sh ${{ matrix.os }} dpkg
       - name: Build
-        run: ./Software/dist_linux/docker/run-image.sh ${{ matrix.os }} dpkg
+        working-directory: Software/dist_linux
+        run: ./build-in-docker.sh dpkg ${{ matrix.os }}
       - name: Check Package
         run: |
           set -xe
-          PKG_PATH=$(ls Software/dist_linux/prismatik*.deb)
+          PKG_PATH=$(ls Software/dist_linux/dpkg/prismatik*.deb)
           echo "PKG_PATH=$PKG_PATH" >> $GITHUB_ENV
           echo "PKG_NAME=$(basename $PKG_PATH | sed 's#amd64#${{ matrix.os }}_amd64#; s# ##')" >> $GITHUB_ENV
       - name: Upload Package

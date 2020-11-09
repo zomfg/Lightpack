@@ -1,5 +1,10 @@
 #!/bin/sh -xe
 
+cd ../..
+qmake -r
+make
+cd -
+
 VERSION=`cat ../../VERSION`
 
 arch=amd64
@@ -12,10 +17,10 @@ rm -r "$debdir"
 template_path=../package_template
 for file in `find "$template_path" -type f`
 do
-	install -Dm644 "$file" "$debdir/"`echo "$file" | sed 's#'"$template_path"'/##'`
+	install -Dm644 "$file" `echo "$file" | sed 's#'"$template_path"'/#'"$debdir"'/#'`
 done
 # copy the build
-install -Dm755 ../../bin/Prismatik "$debdir/usr/bin/prismatik"
+install -Dm755 -s ../../bin/Prismatik "$debdir/usr/bin/prismatik"
 
 timestamp=`date -u`
 size=`du -s deb | cut -f 1`
