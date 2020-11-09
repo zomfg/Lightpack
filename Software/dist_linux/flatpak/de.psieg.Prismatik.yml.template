@@ -50,8 +50,7 @@ modules:
     build-commands:
       - qmake -v
       - cd Software && qmake -r
-      - cd Software && make
-      # $FLATPAK_BUILDER_N_JOBS
+      - cd Software && make -j$FLATPAK_BUILDER_N_JOBS
       - sed -E 's#(Exec|Icon)=.+#\1=de.psieg.Prismatik#' $PKG_TEMPLATE_DIR/usr/share/applications/prismatik.desktop > _prismatik.desktop
       - install -Dm644 _prismatik.desktop $FLATPAK_DEST/usr/share/applications/$FLATPAK_ID.desktop
       - install -Dm644 $PKG_TEMPLATE_DIR/etc/udev/rules.d/93-lightpack.rules $FLATPAK_DEST/etc/udev/rules.d/93-lightpack.rules
