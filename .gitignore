@@ -12,11 +12,11 @@ Software/res/translations/*.qm
 Software/[^.]+.pro.user
 .metadata/
 Software/apiexamples/.+\.pyc
-Software/deb/DEBIAN/md5sums
-Software/dist_linux/*.deb
-Software/dist_linux/*.pkg\.tar\.*
-Software/dist_linux/prismatik*.flatpak
-Software/dist_linux/.flatpak-builder
+Software/dist_linux/dpkg/*.deb
+Software/dist_linux/dpkg/deb
+Software/dist_linux/pacman/*.pkg\.tar\.*
+Software/dist_linux/flatpak/prismatik*.flatpak
+Software/dist_linux/flatpak/.flatpak-builder
 
 syntax: regexp
 Software/dist_windows/Output/

@@ -46,7 +46,7 @@ modules:
     builddir: true
     build-options:
       env:
-        PKG_TEMPLATE_DIR: Software/dist_linux/deb
+        PKG_TEMPLATE_DIR: Software/dist_linux/package_template
     build-commands:
       - qmake -v
       # - Software/dist_linux/docker/build.flatpak
@@ -64,4 +64,4 @@ modules:
       - install -Dm755 Software/bin/Prismatik $FLATPAK_DEST/bin/prismatik
     sources:
       - type: dir
-        path: ../..
+        path: ../../..
