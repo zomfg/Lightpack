@@ -1,6 +1,6 @@
-app-id: de.psieg.Prismatik
+app-id: __APP_ID__
 runtime: org.kde.Platform
-runtime-version: '5.15'
+runtime-version: __KDE_VERSION__
 sdk: org.kde.Sdk
 finish-args:
   # X11 + XShm access
@@ -49,11 +49,8 @@ modules:
         PKG_TEMPLATE_DIR: Software/dist_linux/package_template
     build-commands:
       - qmake -v
-      # - Software/dist_linux/docker/build.flatpak
       - cd Software && qmake -r
-      # - cd Software && make clean
-      # - cd Software && qmake -r
-      - cd Software && make -j2
+      - cd Software && make
       # $FLATPAK_BUILDER_N_JOBS
       - sed -E 's#(Exec|Icon)=.+#\1=de.psieg.Prismatik#' $PKG_TEMPLATE_DIR/usr/share/applications/prismatik.desktop > _prismatik.desktop
       - install -Dm644 _prismatik.desktop $FLATPAK_DEST/usr/share/applications/$FLATPAK_ID.desktop
@@ -61,7 +58,7 @@ modules:
       - install -Dm644 $PKG_TEMPLATE_DIR/usr/share/icons/hicolor/22x22/apps/prismatik-on.png $FLATPAK_DEST/usr/share/icons/hicolor/22x22/apps/$FLATPAK_ID.png
       - install -Dm644 $PKG_TEMPLATE_DIR/usr/share/icons/Prismatik.png $FLATPAK_DEST/usr/share/icons/$FLATPAK_ID.png
       - install -Dm644 $PKG_TEMPLATE_DIR/usr/share/pixmaps/Prismatik.png $FLATPAK_DEST/usr/share/pixmaps/$FLATPAK_ID.png
-      - install -Dm755 Software/bin/Prismatik $FLATPAK_DEST/bin/prismatik
+      - install -Dm755 -s Software/bin/Prismatik $FLATPAK_DEST/bin/prismatik
     sources:
       - type: dir
         path: ../../..

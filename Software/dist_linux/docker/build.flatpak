@@ -1,8 +1,0 @@
-#!/bin/sh
-set -xe
-
-lsb_release -a
-lscpu
-cd /Lightpack/Software/dist_linux
-./build-flatpak.sh
-

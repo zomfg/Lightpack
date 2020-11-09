@@ -11,7 +11,7 @@ arch=amd64
 [ ! -z $1 ] && arch=$1
 
 debdir=deb
-rm -r "$debdir"
+rm -rf "$debdir"
 
 # copy generic template /etc /usr ...
 template_path=../package_template
@@ -51,4 +51,4 @@ chmod 0644 "$debdir/DEBIAN/md5sums"
 fakeroot dpkg-deb --build "$debdir/" .
 
 # delete working dir on success
-# rm -r "$debdir"
+# rm -rf "$debdir"
