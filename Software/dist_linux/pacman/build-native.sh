@@ -3,7 +3,7 @@ set -xe
 
 # TODO: better way of dynamically adding build-vars deps?
 PULSEAUDIO_SUPPORT=
-cd ..
+cd ../..
 qmake -r
 if [ "$(grep -Fo PULSEAUDIO_SUPPORT src/Makefile)" == "PULSEAUDIO_SUPPORT" ]
 then
