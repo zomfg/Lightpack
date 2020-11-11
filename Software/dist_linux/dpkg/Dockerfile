@@ -9,8 +9,6 @@ RUN apt update && apt dist-upgrade -y && apt install -y \
     git \
     hashdeep \
     libfftw3-dev \
-    libgtk2.0-dev \
-    libnotify-dev \
     libpulse-dev \
     libqt5serialport5-dev \
     libudev-dev \

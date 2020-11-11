@@ -6,7 +6,6 @@ RUN pacman -Syu --noconfirm && pacman -S --noconfirm \
     fftw \
     gcc \
     git \
-    libnotify \
     libpulse \
     libusb \
     lsb-release \
