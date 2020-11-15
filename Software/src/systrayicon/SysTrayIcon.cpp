@@ -30,6 +30,7 @@
 #include <QDesktopServices>
 #include <QNetworkReply>
 #include "Settings.hpp"
+#include "version.h"
 
 SysTrayIcon::SysTrayIcon(QObject *parent) :
 	QObject(parent)
@@ -219,14 +220,16 @@ void SysTrayIcon::updateProfiles()
 void SysTrayIcon::onCheckUpdate_Finished()
 {
 	using namespace SettingsScope;
-	QList<UpdateInfo> updates = _updatesProcessor.readUpdates();
-	if (updates.size() > 0) {
-		if (updates.size() > 1) {
+	const UpdateInfo& update = _updatesProcessor.readUpdates();
+	const QVersionNumber& thisVersion = QVersionNumber::fromString(VERSION_STR);
+	const int versionDifference = QVersionNumber::compare(update.softwareVersion, thisVersion);
+
+	if (versionDifference > 0) {
+		if (versionDifference > 1) {
 			_trayMessage = SysTrayIcon::MessageGeneric;
 			_trayMsgUrl = QUrl("https://github.com/psieg/Lightpack/releases");
 			_qsystray->showMessage("Multiple updates are available", "Click to open the downloads page");
 		} else {
-			UpdateInfo& update = updates.last();
 #ifdef Q_OS_WIN
 			if (Settings::isInstallUpdatesEnabled() && !update.pkgUrl.isEmpty() && !update.sigUrl.isEmpty()) {
 				_trayMessage = SysTrayIcon::MessageNoAction;
