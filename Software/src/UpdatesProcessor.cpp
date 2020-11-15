@@ -32,6 +32,7 @@
 #include <QFile>
 #include <QDir>
 #include <QProcess>
+#include "version.h"
 #include "debug.h"
 #include "UpdatesProcessor.hpp"
 #include "Settings.hpp"
