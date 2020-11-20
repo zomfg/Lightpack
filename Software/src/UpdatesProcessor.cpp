@@ -61,7 +61,7 @@ void UpdatesProcessor::requestUpdates()
 		_reply = NULL;
 	}
 
-	QNetworkRequest request(QUrl(UPDATE_CHECK_URL));
+	QNetworkRequest request(QUrl(QStringLiteral(UPDATE_CHECK_URL)));
 	request.setHeader(QNetworkRequest::UserAgentHeader, QVariant("psieg/Lightpack"));
 	request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
 	_reply = _networkMan.get(request);
@@ -75,19 +75,19 @@ UpdateInfo UpdatesProcessor::readUpdates()
 
 	UpdateInfo update;
 
-	update.id = releaseObject.value("id").toInt();
-	update.url = releaseObject.value("html_url").toString();
-	update.text = releaseObject.value("body").toString();
-	update.title = releaseObject.value("name").toString();
-	update.softwareVersion = QVersionNumber::fromString(releaseObject.value("tag_name").toString());
+	update.id = releaseObject.value(QStringLiteral("id")).toInt();
+	update.url = releaseObject.value(QStringLiteral("html_url")).toString();
+	update.text = releaseObject.value(QStringLiteral("body")).toString();
+	update.title = releaseObject.value(QStringLiteral("name")).toString();
+	update.softwareVersion = QVersionNumber::fromString(releaseObject.value(QStringLiteral("tag_name")).toString());
 	// find firmware in assets?
 	// update.firmwareVersion = ...
-	for (const QJsonValue& assetValue : releaseObject.value("assets").toArray()) {
+	for (const QJsonValue& assetValue : releaseObject.value(QStringLiteral("assets")).toArray()) {
 		const QJsonObject& obj = assetValue.toObject();
-		if (obj.value("name").toString().endsWith(".exe"))
-			update.pkgUrl = obj.value("browser_download_url").toString();
-		else if (obj.value("name").toString().endsWith(".exe.updater_signature"))
-			update.sigUrl = obj.value("browser_download_url").toString();
+		if (obj.value(QStringLiteral("name")).toString().endsWith(QStringLiteral(".exe")))
+			update.pkgUrl = obj.value(QStringLiteral("browser_download_url")).toString();
+		else if (obj.value(QStringLiteral("name")).toString().endsWith(QStringLiteral(".exe.updater_signature")))
+			update.sigUrl = obj.value(QStringLiteral("browser_download_url")).toString();
 	}
 	DEBUG_LOW_LEVEL << Q_FUNC_INFO << "latest available version" << update.softwareVersion;
 	return update;
@@ -136,7 +136,7 @@ void UpdatesProcessor::updatePgkLoaded()
 
 	DEBUG_MID_LEVEL << Q_FUNC_INFO << "fetching " << _sigUrl;
 
-	QFile f(QDir::tempPath() + "\\PsiegUpdateElevate_Prismatik.exe");
+	QFile f(QDir::tempPath() + QStringLiteral("\\PsiegUpdateElevate_Prismatik.exe"));
 	if (!f.open(QIODevice::WriteOnly)) {
 		qCritical() << Q_FUNC_INFO << "Failed to write update package";
 	}
@@ -167,7 +167,7 @@ void UpdatesProcessor::updateSigLoaded()
 		return;
 	DEBUG_MID_LEVEL << Q_FUNC_INFO;
 
-	QFile f(QDir::tempPath() + "\\PsiegUpdateElevate_Prismatik.exe.sig");
+	QFile f(QDir::tempPath() + QStringLiteral("\\PsiegUpdateElevate_Prismatik.exe.sig"));
 	if (!f.open(QIODevice::WriteOnly)) {
 		qCritical() << Q_FUNC_INFO << "Failed to write update signature";
 	}
@@ -185,7 +185,7 @@ void UpdatesProcessor::updateSigLoaded()
 	args.append("request");
 	args.append(QDir::tempPath());
 	args.append(QCoreApplication::applicationFilePath());
-	if (QProcess::startDetached(QCoreApplication::applicationDirPath() + "\\UpdateElevate.exe", args)) {
+	if (QProcess::startDetached(QCoreApplication::applicationDirPath() + QStringLiteral("\\UpdateElevate.exe"), args)) {
 		QCoreApplication::quit();
 	} else {
 		qCritical() << Q_FUNC_INFO << "Failed to start UpdateElevate.exe";
